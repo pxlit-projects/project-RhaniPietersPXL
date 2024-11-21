@@ -18,30 +18,24 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: employee-service
-          uri: lb://employee-service
+        - id: post-service
+          uri: lb://post-service
           predicates:
-            - Path=/employee/**
+            - Path=/post/**
           filters:
-            - RewritePath=/employee/(?<path>.*), /$\{path}
-        - id: department-service
-          uri: lb://department-service
+            - RewritePath=/post/(?<path>.*), /$\{path}
+        - id: review-service
+          uri: lb://review-service
           predicates:
-            - Path=/department/**
+            - Path=/review/**
           filters:
-            - RewritePath=/department/(?<path>.*), /$\{path}
-        - id: organization-service
-          uri: lb://organization-service
+            - RewritePath=/review/(?<path>.*), /$\{path}
+        - id: comment-service
+          uri: lb://comment-service
           predicates:
-            - Path=/organization/**
+            - Path=/comment/**
           filters:
-            - RewritePath=/organization/(?<path>.*), /$\{path}
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/notification/**
-          filters:
-            - RewritePath=/notification/(?<path>.*), /$\{path}
+            - RewritePath=/comment/(?<path>.*), /$\{path}
 
 eureka:
   client:
