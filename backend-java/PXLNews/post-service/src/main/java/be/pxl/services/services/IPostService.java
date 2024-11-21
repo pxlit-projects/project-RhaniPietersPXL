@@ -1,6 +1,5 @@
 package be.pxl.services.services;
 
-import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.PostCreateRequest;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.PostUpdateRequest;
@@ -10,7 +9,7 @@ import java.util.List;
 public interface IPostService {
     void addNewPost(PostCreateRequest newPost);
 
-    void editPost(PostUpdateRequest editedPost);
+    void editPost(PostUpdateRequest editedPost, Long id);
 
     List<PostResponse> getAllPublishedPosts();
 
@@ -18,7 +17,9 @@ public interface IPostService {
 
     void deletePostById(Long id);
 
-    List<PostResponse> getPostByState(State state);
+    List<PostResponse> getPostsToApprove();
 
     void getApproval(Long id);
+
+    List<PostResponse> getDraftsFromAuthor(String author);
 }

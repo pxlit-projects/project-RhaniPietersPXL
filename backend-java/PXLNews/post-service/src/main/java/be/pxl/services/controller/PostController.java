@@ -1,6 +1,5 @@
 package be.pxl.services.controller;
 
-import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.PostCreateRequest;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.PostUpdateRequest;
@@ -17,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class PostController {
     private final IPostService postService;
     private static final Logger log = LoggerFactory.getLogger(PostController.class);
@@ -33,10 +33,16 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<PostResponse>> getByState(@RequestParam State state) {
-        log.info("Fetching posts by state {}", state);
-        return new ResponseEntity<>(postService.getPostByState(state), HttpStatus.OK);
+    @GetMapping("/approval")
+    public ResponseEntity<List<PostResponse>> getAllToApprove() {
+        log.info("Fetching posts to approve}");
+        return new ResponseEntity<>(postService.getPostsToApprove(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{author}")
+    public ResponseEntity<List<PostResponse>> getDraftsFromAuthor(@PathVariable String author) {
+        log.info("Fetching drafts by author {}", author);
+        return new ResponseEntity<>(postService.getDraftsFromAuthor(author), HttpStatus.OK);
     }
 
     @PostMapping
@@ -55,7 +61,7 @@ public class PostController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> editPost(@PathVariable Long id, @RequestBody PostUpdateRequest editedPost) {
         log.info("Editing post: {}", editedPost.getTitle());
-        postService.editPost(editedPost);
+        postService.editPost(editedPost, id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
