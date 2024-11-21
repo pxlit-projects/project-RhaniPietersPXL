@@ -6,6 +6,7 @@ import be.pxl.services.domain.dto.PostCreateRequest;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.PostUpdateRequest;
 import be.pxl.services.repository.PostRepository;
+import com.ctc.wstx.shaded.msv_core.driver.textui.Debug;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,34 +44,42 @@ public class PostService implements IPostService {
 
         postRepository.save(post);
         log.info("Post saved successfully.");
-        if(post.getState() == State.PENDING_APPROVAL) {
+        if (post.getState() == State.PENDING_APPROVAL) {
             getApproval(post.getId());
         }
     }
 
     @Override
     public void editPost(PostUpdateRequest editedPost, Long id) {
-
+        Post post = postRepository.findById(id).orElseThrow();
+        post.setTitle(editedPost.getTitle());
+        post.setContent(editedPost.getContent());
+        post.setCategory(editedPost.getCategory());
+        postRepository.save(post);
+        log.info("Post edited successfully.");
     }
 
     @Override
     public List<PostResponse> getAllPublishedPosts() {
-        return List.of();
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(this::mapToPostResponse).toList();
     }
 
     @Override
-    public List<PostResponse> getPostById(Long id) {
-        return List.of();
+    public PostResponse getPostById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        return mapToPostResponse(post);
     }
 
     @Override
     public void deletePostById(Long id) {
-
+        postRepository.deleteById(id);
     }
 
     @Override
     public List<PostResponse> getPostsToApprove() {
-        return List.of();
+        List<Post> posts = postRepository.findByState(State.PENDING_APPROVAL);
+        return posts.stream().map(this::mapToPostResponse).toList();
     }
 
     @Override
@@ -81,6 +90,8 @@ public class PostService implements IPostService {
 
     @Override
     public List<PostResponse> getDraftsFromAuthor(String author) {
-        return List.of();
+        log.info("Fetching drafts by author {}", author);
+        List<Post> posts = postRepository.findByAuthorAndState(author, State.DRAFT);
+        return posts.stream().map(this::mapToPostResponse).toList();
     }
 }

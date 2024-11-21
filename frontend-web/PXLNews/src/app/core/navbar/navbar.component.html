@@ -1,0 +1,50 @@
+<nav class="bg-secondary border-b-2 border-secondary relative">
+	<div class="max-w-screen-xl flex items-center justify-between mx-auto p-4 relative">
+		<span class="absolute left-1/2 transform -translate-x-1/2 text-2xl font-semibold whitespace-nowrap">PXL NEWS</span>
+
+		<div class="hidden md:flex space-x-8 ml-auto">
+			<ul class="flex space-x-8">
+				@if (authService.isLoggedIn()) {
+					<li><a routerLink="/posts" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Posts</a></li>
+					@if (authService.getRole() == 'redacteur') {
+						<li><a routerLink="/add" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Add Post</a></li>
+						<li><a routerLink="/drafts" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Drafts</a></li>
+						<li><a routerLink="/approve" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">To Approve</a></li>
+					}
+				}
+				@if (!authService.isLoggedIn()) {
+					<li><a routerLink="/login" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Login</a></li>
+				} @else {
+					<li><a (click)="logout(); closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Logout</a></li>
+				}
+
+			</ul>
+		</div>
+
+		<div class="md:hidden flex ml-auto">
+			<button (click)="toggleMenu()" class="hamburger flex flex-col justify-end items-center space-y-1 w-6 h-6 relative group">
+				<span class="block w-full h-1 bg-button-primary transition-all duration-300 ease-in-out" [ngClass]="{'rotate-45 translate-y-2': isMenuOpen}"></span>
+				<span class="block w-full h-1 bg-button-primary transition-all duration-300 ease-in-out" [ngClass]="{'opacity-0': isMenuOpen}"></span>
+				<span class="block w-full h-1 bg-button-primary transition-all duration-300 ease-in-out" [ngClass]="{'-rotate-45 -translate-y-2': isMenuOpen}"></span>
+			</button>
+		</div>
+	</div>
+
+	<div *ngIf="isMenuOpen" class="md:hidden flex flex-col p-4 space-y-4 bg-primary transition-all duration-300 ease-in-out w-max max-w-fit ml-auto absolute top-16 right-0 z-50">
+		<ul class="space-y-4">
+			@if (authService.isLoggedIn()) {
+				<li><a routerLink="/posts" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Posts</a></li>
+				@if (authService.getRole() == 'redacteur') {
+					<li><a routerLink="/add" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Add Post</a></li>
+					<li><a routerLink="/drafts" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Drafts</a></li>
+					<li><a routerLink="/approve" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">To Approve</a></li>
+				}
+			}
+			@if (!authService.isLoggedIn()) {
+				<li><a routerLink="/login" (click)="closeMenu()" class="block py-2 pl-3 ">Login</a></li>
+			} @else {
+				<li><a (click)="logout(); closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Logout</a></li>
+			}
+		</ul>
+	</div>
+</nav>

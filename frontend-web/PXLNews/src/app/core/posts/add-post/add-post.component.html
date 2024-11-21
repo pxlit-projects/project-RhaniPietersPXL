@@ -1,0 +1,40 @@
+<div class="container mx-auto mt-5">
+	<h2 class="text-xl mb-3 text-primary">Add Post</h2>
+	<form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+		<div class="mb-4">
+			<label for="title" class="block text-text-primary text-sm font-bold mb-2">Title:</label>
+			<input type="text" id="title" formControlName="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
+			@if (postForm.get('title')?.touched && postForm.get('title')?.hasError('required')) {
+				<div class="text-error">Title is required</div>
+			}
+		</div>
+
+		<div class="mb-4">
+			<label for="content" class="block text-text-primary text-sm font-bold mb-2">Content:</label>
+			<textarea id="content" formControlName="content"
+					  class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+			@if (postForm.get('content')?.touched && postForm.get('content')?.hasError('required')) {
+				<div class="text-error">Content is required</div>
+			}
+		</div>
+
+		<div class="mb-4">
+			<label for="category" class="block text-text-primary text-sm font-bold mb-2">Category:</label>
+			<select formControlName="category" id="category"
+					class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
+				<option value=""></option>
+				<option value="FOOD">Food</option>
+				<option value="TEACHERS">Teachers</option>
+				<option value="STUDENTS">Students</option>
+				<option value="EVENTS">Events</option>
+				<option value="ADMINISTRATIVE">Administrative</option>
+			</select>
+			@if (postForm.get('category')?.touched && postForm.get('category')?.hasError('required')) {
+				<div class="text-error">Category is required</div>
+			}
+		</div>
+
+		<button type="button" (click)="publishPost()" [ngClass]="{'bg-button-primary hover:bg-secondary': postForm.valid, 'bg-neutral-light': !postForm.valid}" class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="!postForm.valid">Publish Post</button>
+		<button type="button" (click)="savePostAsDraft()" [ngClass]="{'bg-button-primary hover:bg-secondary': postForm.valid, 'bg-neutral-light': !postForm.valid}" class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary" [disabled]="!postForm.valid">Save as Draft</button>
+	</form>
+</div>

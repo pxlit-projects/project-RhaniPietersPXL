@@ -4,16 +4,7 @@ server:
 spring:
   cloud:
     gateway:
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins:
-              - "localhost"
-            allowedMethods:
-              - "*"
-            allowedHeaders:
-              - "*"
-            allowCredentials: true
+      globalcors: {}  # Verwijder of leeg deze configuratie
       discovery:
         locator:
           enabled: true

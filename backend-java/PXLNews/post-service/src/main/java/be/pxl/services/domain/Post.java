@@ -22,6 +22,8 @@ public class Post {
     private String content;
     private String author;
     private LocalDateTime creationDate;
+    @Enumerated(EnumType.STRING)
     private Category category;
+    @Enumerated(EnumType.STRING)
     private State state;
 }

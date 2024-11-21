@@ -13,7 +13,7 @@ public interface IPostService {
 
     List<PostResponse> getAllPublishedPosts();
 
-    List<PostResponse> getPostById(Long id);
+    PostResponse getPostById(Long id);
 
     void deletePostById(Long id);
 

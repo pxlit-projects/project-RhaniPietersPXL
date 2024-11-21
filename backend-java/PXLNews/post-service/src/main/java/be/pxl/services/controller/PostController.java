@@ -28,7 +28,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<PostResponse>> getById(@PathVariable Long id) {
+    public ResponseEntity<PostResponse> getById(@PathVariable Long id) {
         log.info("Fetching posts by id {}", id);
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
@@ -39,7 +39,7 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostsToApprove(), HttpStatus.OK);
     }
 
-    @GetMapping("/{author}")
+    @GetMapping("/drafts/{author}")
     public ResponseEntity<List<PostResponse>> getDraftsFromAuthor(@PathVariable String author) {
         log.info("Fetching drafts by author {}", author);
         return new ResponseEntity<>(postService.getDraftsFromAuthor(author), HttpStatus.OK);
