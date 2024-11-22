@@ -4,8 +4,7 @@
 			<h2 class="font-bold text-xl text-text-primary text-left">{{ post.title }}</h2>
 			<p class="text-gray-700 text-base text-left">{{ post.category }}</p>
 		</div>
-		<button [routerLink]="['/post', post.id]" routerLinkActive="router-link-active"
-				class="w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Details
+		<button (click)="onDetailsClick()" class="w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Details
 		</button>
 	</div>
 </div>

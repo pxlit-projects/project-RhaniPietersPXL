@@ -14,18 +14,14 @@ export class PostService {
     //TODO nakijken urls environments!
     api: string = environment.apiUrlPost;
     http: HttpClient = inject(HttpClient);
-    authServ: AuthService = inject(AuthService);
 
+    //TODO naar comment service
     getPublishedPosts(): Observable<Post[]> {
         return this.http.get<Post[]>(this.api);
     }
-    getDrafts() : Observable<Post[]> {
-        let author = this.authServ.getUsername();
-        return this.http.get<Post[]>(`${this.api}/drafts/${author}`);
-    }
 
-    getPostsToApprove(author: string): Observable<Post[]> {
-        return this.http.get<Post[]>(`${this.api}/approval/${author}`);
+    getDrafts(author : string) : Observable<Post[]> {
+        return this.http.get<Post[]>(`${this.api}/drafts/${author}`);
     }
 
     filterPosts(filter: Filter): Observable<Post[]> {
@@ -60,15 +56,6 @@ export class PostService {
 
     askApproval(id: number): Observable<Post> {
         return this.http.post<Post>(`${this.api}/${id}/approval`, null);
-    }
-
-    approvePost(id: number): Observable<Post> {
-        return this.http.post<Post>(`${this.api}/${id}/approve`, null);
-    }
-
-    rejectPost(id: number, message: string): Observable<Post> {
-        const rejectRequest = { message };
-        return this.http.post<Post>(`${this.api}/${id}/reject`, rejectRequest);
     }
 
     publishPost(number: number): Observable<Post> {

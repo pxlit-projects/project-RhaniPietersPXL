@@ -5,7 +5,7 @@
 		<div class="hidden md:flex space-x-8 ml-auto">
 			<ul class="flex space-x-8">
 				@if (authService.isLoggedIn()) {
-					<li><a routerLink="/posts" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Posts</a></li>
+					<li><a routerLink="/published" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Posts</a></li>
 					@if (authService.getRole() == 'redacteur') {
 						<li><a routerLink="/add" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Add Post</a></li>
 						<li><a routerLink="/drafts" (click)="closeMenu()" class="block py-2 pl-3 pr-4 rounded hover:bg-secondary-light">Drafts</a></li>
@@ -33,7 +33,7 @@
 	<div *ngIf="isMenuOpen" class="md:hidden flex flex-col p-4 space-y-4 bg-primary transition-all duration-300 ease-in-out w-max max-w-fit ml-auto absolute top-16 right-0 z-50">
 		<ul class="space-y-4">
 			@if (authService.isLoggedIn()) {
-				<li><a routerLink="/posts" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Posts</a></li>
+				<li><a routerLink="/published" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Posts</a></li>
 				@if (authService.getRole() == 'redacteur') {
 					<li><a routerLink="/add" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Add Post</a></li>
 					<li><a routerLink="/drafts" (click)="closeMenu()" class="block py-2 pl-3 pr-4">Drafts</a></li>

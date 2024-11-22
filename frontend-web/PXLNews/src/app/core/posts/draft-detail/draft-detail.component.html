@@ -1,0 +1,20 @@
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md mt-4 p-6">
+	<app-detail [post]="post"></app-detail>
+	@if (post.author == authServ.getUsername() && post.state == 'REJECTED') {
+		<p class="mb-2 text-error"><strong>Reason for rejection: {{ post.rejectedMessage }}</strong></p>
+	}
+	@if (post.author == authServ.getUsername() && post.state == 'PENDING_APPROVAL') {
+		<p class="mb-2 text-warning"><strong>Post is pending approval</strong></p>
+	}
+	@if (post.author == authServ.getUsername() && post.state == 'DRAFT' || post.state == 'REJECTED') {
+		<button (click)="editPost(post.id!)"
+				class="w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Edit
+		</button>
+	}
+	@if (post.author == authServ.getUsername() && post.state == 'APPROVED') {
+		<button (click)="publishPost(post.id!)"
+				class="w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Publish
+		</button>
+	}
+</div>
+

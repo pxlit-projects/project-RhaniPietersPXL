@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>be.pxl.services</groupId>
-            <artifactId>review-service</artifactId>
+            <artifactId>messaging-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

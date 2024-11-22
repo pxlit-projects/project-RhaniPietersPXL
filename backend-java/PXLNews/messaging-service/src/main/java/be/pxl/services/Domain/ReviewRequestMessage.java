@@ -1,6 +1,5 @@
-package be.pxl.services.domain.dto;
+package be.pxl.services.Domain;
 
-import be.pxl.services.domain.State;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewApprovalResponse {
-    private State state;
-    private String rejectedMessage;
+public class ReviewRequestMessage {
     private Long postId;
+    private String author;
 }

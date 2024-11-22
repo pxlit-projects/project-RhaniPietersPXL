@@ -1,6 +1,5 @@
 package be.pxl.services.controller;
 
-import be.pxl.services.domain.dto.ReviewRequest;
 import be.pxl.services.domain.dto.ReviewResponse;
 import be.pxl.services.services.IReviewService;
 import lombok.RequiredArgsConstructor;

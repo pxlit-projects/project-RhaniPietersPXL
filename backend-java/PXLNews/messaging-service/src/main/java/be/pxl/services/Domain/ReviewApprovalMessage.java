@@ -1,4 +1,4 @@
-package be.pxl.services.domain.dto;
+package be.pxl.services.Domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewRequest {
-    private Long id;
-    private String author;
+public class ReviewApprovalMessage  {
+    private Long postId;
+    private String state;
+    private String rejectedMessage;
 }

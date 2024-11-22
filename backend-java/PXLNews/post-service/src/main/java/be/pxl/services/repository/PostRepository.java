@@ -9,5 +9,4 @@ import java.util.List;
 public interface PostRepository  extends JpaRepository<Post, Long> {
     List<Post> findByState(State state);
     List<Post> findByAuthorAndStateNotIn(String author, List<State> list);
-    List<Post> findAllByStateAndAuthorNot(State state, String author);
 }

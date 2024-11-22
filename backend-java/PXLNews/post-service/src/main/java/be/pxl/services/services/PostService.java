@@ -1,5 +1,7 @@
 package be.pxl.services.services;
 
+import be.pxl.services.Domain.ReviewApprovalMessage;
+import be.pxl.services.Domain.ReviewRequestMessage;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.*;
@@ -56,13 +58,14 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void editPost(PostUpdateRequest editedPost, Long id) {
+    public PostResponse editPost(PostUpdateRequest editedPost, Long id) {
         Post post = postRepository.findById(id).orElseThrow();
         post.setTitle(editedPost.getTitle());
         post.setContent(editedPost.getContent());
         post.setCategory(editedPost.getCategory());
         postRepository.save(post);
         log.info("Post edited successfully.");
+        return mapToPostResponse(post);
     }
 
     @Override
@@ -91,22 +94,23 @@ public class PostService implements IPostService {
 
     @Override
     public void getApproval(Long id) {
-        log.info("Sending template for approval...");
+        log.info("Sending template for approval {} ...", id);
         Post post = postRepository.findById(id).orElseThrow();
         post.setRejectedMessage("");
         post.setState(State.PENDING_APPROVAL);
         postRepository.save(post);
-        ReviewRequest reviewRequest = ReviewRequest.builder()
+        ReviewRequestMessage reviewRequest = ReviewRequestMessage.builder()
                 .author(post.getAuthor())
-                .id(post.getId())
+                .postId(post.getId())
                 .build();
         rabbitTemplate.convertAndSend("getApproval", reviewRequest );
     }
+
     @RabbitListener(queues = "setReview")
-    public void setReviewStatus(ReviewApprovalResponse response) {
+    public void setReviewStatus(ReviewApprovalMessage response) {
         log.info("Changing state of post with id {} after review", response.getState());
         Post post = postRepository.findById(response.getPostId()).orElseThrow();
-        post.setState(response.getState());
+        post.setState(State.valueOf(response.getState()));
         post.setRejectedMessage(response.getRejectedMessage());
         postRepository.save(post);
     }

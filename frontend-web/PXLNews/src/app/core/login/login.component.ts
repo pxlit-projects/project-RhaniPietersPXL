@@ -26,7 +26,7 @@ export class LoginComponent {
         if (this.username && this.selectedRole) {
             this.errorMessage = '';
             this.authService.setUser(this.username, this.selectedRole);
-            this.router.navigate(['/posts']);
+            this.router.navigate(['/published']);
         } else {
             this.errorMessage = 'Gelieve een gebruikersnaam in te voeren.';
         }

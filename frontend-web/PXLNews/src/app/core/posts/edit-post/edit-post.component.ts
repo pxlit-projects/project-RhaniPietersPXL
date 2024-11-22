@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from "../../../shared/services/post.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import { Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AsyncPipe, NgClass} from "@angular/common";
@@ -18,7 +18,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     router: Router = inject(Router);
     route: ActivatedRoute = inject(ActivatedRoute);
     id: number = this.route.snapshot.params['id'];
-    post$: Observable<Post> = this.postService.getPost(this.id);
+    post!: Post;
     sub!: Subscription;
     action: string = ''
 
@@ -34,12 +34,11 @@ export class EditPostComponent implements OnInit, OnDestroy {
     });
 
     ngOnInit(): void {
-        this.sub = this.post$.subscribe(post => {
-            this.postForm.patchValue({
-                title: post.title,
-                content: post.content,
-                category: post.category,
-            });
+        this.post = history.state['post'];
+        this.postForm = this.fb.group({
+            title: [this.post.title, Validators.required],
+            content: [this.post.content, [Validators.required]],
+            category: [this.post.category, Validators.required],
         });
     }
 
@@ -55,8 +54,10 @@ export class EditPostComponent implements OnInit, OnDestroy {
             updatedPost.id = this.id;
             if (this.postForm.dirty) {
                 this.editPost(updatedPost);
-            } else {
+            } else if (this.action === 'approval') {
                 this.askApproval(this.id);
+            } else{
+                this.router.navigate(['/draft', this.id], {state: {post: this.post}});
             }
         }
     }
@@ -65,26 +66,28 @@ export class EditPostComponent implements OnInit, OnDestroy {
         this.sub = this.postService.updatePost(post).subscribe({
             next: (data) => {
                 this.postForm.reset();
+                this.post = data;
                 if (this.action === 'approval') {
                     this.askApproval(this.id);
                 } else {
-                    this.router.navigate(['/post', this.id]);
+                    this.router.navigate(['/draft', this.id], {state: {post: this.post}});
                 }
             }
         });
     }
 
     askApproval(id: number): void {
-        console.log(id);
         this.sub = this.postService.askApproval(id).subscribe({
-            next: (post) => {
+            next: () => {
                 this.postForm.reset();
-                this.router.navigate(['/post', this.id]);
-            },
+                this.router.navigate(['/draft', this.id], {state: {post: this.post}});
+            }
         });
     }
 
     cancel(): void {
-        this.router.navigate(['/post', this.route.snapshot.params['id']]);
+        this.router.navigate(['/draft', this.id], {state: {post: this.post}});
     }
 }
+
+

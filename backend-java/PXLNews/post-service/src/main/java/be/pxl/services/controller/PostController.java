@@ -53,10 +53,9 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> editPost(@PathVariable Long id, @RequestBody PostUpdateRequest editedPost) {
+    public ResponseEntity<PostResponse> editPost(@PathVariable Long id, @RequestBody PostUpdateRequest editedPost) {
         log.info("Editing post: {}", editedPost.getTitle());
-        postService.editPost(editedPost, id);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(postService.editPost(editedPost, id), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/publish")

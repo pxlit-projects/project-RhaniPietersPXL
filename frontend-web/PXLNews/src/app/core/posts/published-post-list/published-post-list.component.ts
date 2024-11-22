@@ -5,33 +5,39 @@ import {FilterComponent} from "../filter/filter.component";
 import {PostService} from "../../../shared/services/post.service";
 import {Post} from "../../../shared/models/post.model";
 import {Filter} from "../../../shared/models/filter.model";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-published-post-list',
-  standalone: true,
-  imports: [PostItemComponent, AddPostComponent, FilterComponent],
-  templateUrl: './published-post-list.component.html',
-  styleUrl: './published-post-list.component.css'
+    selector: 'app-published-post-list',
+    standalone: true,
+    imports: [PostItemComponent, AddPostComponent, FilterComponent],
+    templateUrl: './published-post-list.component.html',
+    styleUrl: './published-post-list.component.css'
 })
-export class PublishedPostListComponent implements OnInit{
-  postService: PostService = inject(PostService);
-  filteredData!: Post[];
+export class PublishedPostListComponent implements OnInit {
+    postService: PostService = inject(PostService);
+    router: Router = inject(Router);
+    filteredData!: Post[];
 
-  ngOnInit(): void {
-    this.fetchData();
-  }
+    ngOnInit(): void {
+        this.fetchData();
+    }
 
-  private fetchData() {
-    this.postService.getPublishedPosts().subscribe({
-      next: posts => {
-        this.filteredData = posts;
-      }
-    });
-  }
+    private fetchData() {
+        this.postService.getPublishedPosts().subscribe({
+            next: posts => {
+                this.filteredData = posts;
+            }
+        });
+    }
 
-  handleFilter(filter: Filter) {
-    this.postService.filterPosts(filter).subscribe({
-      next: posts => this.filteredData = posts
-    });
-  }
+    handleFilter(filter: Filter) {
+        this.postService.filterPosts(filter).subscribe({
+            next: posts => this.filteredData = posts
+        });
+    }
+
+    onPostDetails(item: Post) {
+        this.router.navigate(['/published', item.id, {state: {post: item}}]);
+    }
 }
