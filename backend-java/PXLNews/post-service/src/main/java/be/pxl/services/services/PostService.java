@@ -2,18 +2,16 @@ package be.pxl.services.services;
 
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.State;
-import be.pxl.services.domain.dto.PostCreateRequest;
-import be.pxl.services.domain.dto.PostRejectRequest;
-import be.pxl.services.domain.dto.PostResponse;
-import be.pxl.services.domain.dto.PostUpdateRequest;
+import be.pxl.services.domain.dto.*;
 import be.pxl.services.repository.PostRepository;
-import com.ctc.wstx.shaded.msv_core.driver.textui.Debug;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,6 +19,9 @@ import java.util.List;
 public class PostService implements IPostService {
     private final PostRepository postRepository;
     private static final Logger log = LoggerFactory.getLogger(PostService.class);
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     private PostResponse mapToPostResponse(Post post) {
         return PostResponse.builder()
@@ -81,32 +82,35 @@ public class PostService implements IPostService {
         postRepository.deleteById(id);
     }
 
-    //TODO andere service
     @Override
-    public List<PostResponse> getPostsToApproveNotFromAuthor(String author) {
-        log.info("auther {}", author);
-        List<Post> posts = postRepository.findAllByStateAndAuthorNot(State.PENDING_APPROVAL, author);
-        log.info("count {}", posts.size());
+    public List<PostResponse> getDraftsFromAuthor(String author) {
+        log.info("Fetching drafts by author {}", author);
+        List<Post> posts = postRepository.findByAuthorAndStateNotIn(author, List.of(State.PUBLISHED));
         return posts.stream().map(this::mapToPostResponse).toList();
     }
 
     @Override
     public void getApproval(Long id) {
-        log.info("Sending notification for approval...");
+        log.info("Sending template for approval...");
         Post post = postRepository.findById(id).orElseThrow();
         post.setRejectedMessage("");
         post.setState(State.PENDING_APPROVAL);
         postRepository.save(post);
-        //TODO send notification
-        //TODO controle op status?
+        ReviewRequest reviewRequest = ReviewRequest.builder()
+                .author(post.getAuthor())
+                .id(post.getId())
+                .build();
+        rabbitTemplate.convertAndSend("getApproval", reviewRequest );
+    }
+    @RabbitListener(queues = "setReview")
+    public void setReviewStatus(ReviewApprovalResponse response) {
+        log.info("Changing state of post with id {} after review", response.getState());
+        Post post = postRepository.findById(response.getPostId()).orElseThrow();
+        post.setState(response.getState());
+        post.setRejectedMessage(response.getRejectedMessage());
+        postRepository.save(post);
     }
 
-    @Override
-    public List<PostResponse> getDraftsFromAuthor(String author) {
-        log.info("Fetching drafts by author {}", author);
-        List<Post> posts = postRepository.findByAuthorAndStateNotIn(author, Arrays.asList(State.PUBLISHED));
-        return posts.stream().map(this::mapToPostResponse).toList();
-    }
 
     @Override
     public void publishPost(Long id) {
@@ -114,32 +118,6 @@ public class PostService implements IPostService {
         //TODO controle op status?
         Post post = postRepository.findById(id).orElseThrow();
         post.setState(State.PUBLISHED);
-        postRepository.save(post);
-    }
-
-    //TODO andere service
-    //TODO controle op status?
-    @Override
-    public void rejectPost(Long id, PostRejectRequest rejectRequest) {
-        Post post = postRepository.findById(id).orElseThrow();
-        post.setState(State.REJECTED);
-        post.setRejectedMessage(rejectRequest.getMessage());
-        log.info("Setting message to {}", post.getRejectedMessage());
-        postRepository.save(post);
-    }
-
-    //TODO andere service
-    //TODO controle op status?
-    @Override
-    public void approvePost(Long id) {
-        log.info("Approving post with id {}", id);
-        Post post = postRepository.findById(id).orElseThrow();
-        log.info("Post before update: id={}, state={}", post.getId(), post.getState());
-
-        post.setState(State.APPROVED);
-        post.setRejectedMessage("");
-
-        log.info("Post after update: id={}, new state={}", post.getId(), post.getState());
         postRepository.save(post);
     }
 }

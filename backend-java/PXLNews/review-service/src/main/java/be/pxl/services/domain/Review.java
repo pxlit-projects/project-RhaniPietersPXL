@@ -16,7 +16,9 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private String content;
-
+    private Long postId;
+    private String author;
+    private String rejectedMessage;
+    @Transient
+    private Post post;
 }

@@ -1,3 +1,5 @@
 export const environment = {
-    apiUrl: '/post/post',
+    apiUrlPost: '/post/post',
+    apiUrlReview: '/review/review',
+    apiUrlComment: '/comment/comment',
 };

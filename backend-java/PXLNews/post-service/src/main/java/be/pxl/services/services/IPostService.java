@@ -18,15 +18,10 @@ public interface IPostService {
 
     void deletePostById(Long id);
 
-    List<PostResponse> getPostsToApproveNotFromAuthor(String author);
-
     void getApproval(Long id);
 
     List<PostResponse> getDraftsFromAuthor(String author);
 
     void publishPost(Long id);
 
-    void rejectPost(Long id, PostRejectRequest rejectRequest);
-
-    void approvePost(Long id);
 }

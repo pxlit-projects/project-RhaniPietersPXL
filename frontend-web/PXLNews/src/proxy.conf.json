@@ -2,5 +2,13 @@
   "/post/post": {
     "target": "http://localhost:8085",
     "secure": false
+  },
+  "/review/review": {
+    "target": "http://localhost:8085",
+    "secure": false
+  },
+  "/comment/comment": {
+    "target": "http://localhost:8085",
+    "secure": false
   }
 }

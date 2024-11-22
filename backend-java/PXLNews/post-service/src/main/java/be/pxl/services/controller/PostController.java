@@ -1,7 +1,6 @@
 package be.pxl.services.controller;
 
 import be.pxl.services.domain.dto.PostCreateRequest;
-import be.pxl.services.domain.dto.PostRejectRequest;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.PostUpdateRequest;
 import be.pxl.services.services.IPostService;
@@ -34,12 +33,6 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/approval/{author}")
-    public ResponseEntity<List<PostResponse>> findAllByStateAndAuthorNot(@PathVariable String author) {
-        log.info("Fetching posts to approve");
-        return new ResponseEntity<>(postService.getPostsToApproveNotFromAuthor(author), HttpStatus.OK);
-    }
-
     @GetMapping("/drafts/{author}")
     public ResponseEntity<List<PostResponse>> getDraftsFromAuthor(@PathVariable String author) {
         log.info("Fetching drafts by author {}", author);
@@ -66,24 +59,10 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}/approve")
-    public ResponseEntity<Void> approve(@PathVariable Long id) {
-        log.info("Approving post with id {}", id);
-        postService.approvePost(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PostMapping("/{id}/publish")
     public ResponseEntity<Void> publish(@PathVariable Long id) {
         log.info("Publishing post with id {}", id);
         postService.publishPost(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/{id}/reject")
-    public ResponseEntity<Void> reject(@PathVariable Long id, @RequestBody PostRejectRequest rejectRequest) {
-        log.info("Rejecting post with id {}", id);
-        postService.rejectPost(id, rejectRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

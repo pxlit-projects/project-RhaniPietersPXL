@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Post} from "../models/post.model";
@@ -11,7 +11,8 @@ import {AuthService} from "./auth.service";
 })
 //  ng serve --proxy-config src/proxy.conf.json
 export class PostService {
-    api: string = environment.apiUrl;
+    //TODO nakijken urls environments!
+    api: string = environment.apiUrlPost;
     http: HttpClient = inject(HttpClient);
     authServ: AuthService = inject(AuthService);
 
