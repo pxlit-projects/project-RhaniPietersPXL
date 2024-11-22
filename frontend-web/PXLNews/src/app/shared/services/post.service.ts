@@ -15,15 +15,16 @@ export class PostService {
     http: HttpClient = inject(HttpClient);
     authServ: AuthService = inject(AuthService);
 
-    constructor() {
-    }
-
     getPublishedPosts(): Observable<Post[]> {
         return this.http.get<Post[]>(this.api);
     }
+    getDrafts() : Observable<Post[]> {
+        let author = this.authServ.getUsername();
+        return this.http.get<Post[]>(`${this.api}/drafts/${author}`);
+    }
 
-    addPost(post: Post): Observable<Post> {
-        return this.http.post<Post>(this.api, post);
+    getPostsToApprove(author: string): Observable<Post[]> {
+        return this.http.get<Post[]>(`${this.api}/approval/${author}`);
     }
 
     filterPosts(filter: Filter): Observable<Post[]> {
@@ -40,18 +41,36 @@ export class PostService {
         return matchesContent && matchesAuthor && matchesTitle;
     }
 
+    addPost(post: Post): Observable<Post> {
+        return this.http.post<Post>(this.api, post);
+    }
+
     savePostAsDraft(newPost: Post): Observable<Post> {
         return this.http.post<Post>(this.api, newPost);
-
     }
 
-    submitPostForApproval(newPost: Post): Observable<Post> {
-        return this.http.post<Post>(this.api, newPost);
-
+    getPost(id: number) : Observable<Post> {
+        return this.http.get<Post>(`${this.api}/${id}`);
     }
 
-    getDrafts() : Observable<Post[]> {
-        let author = this.authServ.getUsername();
-        return this.http.get<Post[]>(`${this.api}/drafts/${author}`);
+    updatePost(post: Post): Observable<Post> {
+        return this.http.put<Post>(`${this.api}/${post.id}`, post);
+    }
+
+    askApproval(id: number): Observable<Post> {
+        return this.http.post<Post>(`${this.api}/${id}/approval`, null);
+    }
+
+    approvePost(id: number): Observable<Post> {
+        return this.http.post<Post>(`${this.api}/${id}/approve`, null);
+    }
+
+    rejectPost(id: number, message: string): Observable<Post> {
+        const rejectRequest = { message };
+        return this.http.post<Post>(`${this.api}/${id}/reject`, rejectRequest);
+    }
+
+    publishPost(number: number): Observable<Post> {
+        return this.http.post<Post>(`${this.api}/${number}/publish`, null);
     }
 }

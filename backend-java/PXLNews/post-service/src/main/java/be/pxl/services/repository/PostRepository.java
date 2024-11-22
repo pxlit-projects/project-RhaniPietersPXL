@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PostRepository  extends JpaRepository<Post, Long> {
-    List<Post> findByAuthorAndState(String author, State state);
     List<Post> findByState(State state);
+    List<Post> findByAuthorAndStateNotIn(String author, List<State> list);
+    List<Post> findAllByStateAndAuthorNot(State state, String author);
 }

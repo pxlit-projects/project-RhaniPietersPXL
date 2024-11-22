@@ -21,6 +21,11 @@ export class AddPostComponent {
     postService: PostService = inject(PostService);
     authService: AuthService = inject(AuthService);
     router: Router = inject(Router);
+    action: string = ''
+
+    setAction(action: string): void {
+        this.action = action;
+    }
 
     fb: FormBuilder = inject(FormBuilder);
     postForm: FormGroup = this.fb.group({
@@ -29,37 +34,26 @@ export class AddPostComponent {
         category: ['', Validators.required],
     });
 
-    onSubmit() {
-        const newPost: Post = {...this.postForm.value};
-        this.postService.addPost(newPost).subscribe(post => {
-            this.postForm.reset();
-            this.router.navigate(['/drafts']);
-        });
-    }
+    onSubmit(): void {
+        if (this.postForm.valid) {
+            const newPost: Post = {
+                ...this.postForm.value,
+                author: this.authService.getUsername(),
+                creationDate: new Date().toISOString(),
+                state: this.action === 'publish' ? 'PENDING_APPROVAL' : 'DRAFT',
+            };
 
-    publishPost() {
-        const newPost: Post = {
-            ...this.postForm.value,
-            state: 'PENDING_APPROVAL',
-            creationDate: new Date().toISOString(),
-            author: this.authService.getUsername()
-        };
-        this.postService.savePostAsDraft(newPost).subscribe(post => {
-            this.postForm.reset();
-            this.router.navigate(['/drafts']);
-        });
-    }
-
-    savePostAsDraft() {
-        const newPost: Post = {
-            ...this.postForm.value,
-            state: 'DRAFT',
-            creationDate: new Date().toISOString(),
-            author: this.authService.getUsername()
-        };
-        this.postService.submitPostForApproval(newPost).subscribe(post => {
-            this.postForm.reset();
-            this.router.navigate(['/posts']);
-        });
+            if (this.action === 'publish') {
+                this.postService.addPost(newPost).subscribe(post => {
+                    this.postForm.reset();
+                    this.router.navigate(['/drafts']);
+                });
+            } else if (this.action === 'draft') {
+                this.postService.savePostAsDraft(newPost).subscribe(post => {
+                    this.postForm.reset();
+                    this.router.navigate(['/drafts']);
+                });
+            }
+        }
     }
 }

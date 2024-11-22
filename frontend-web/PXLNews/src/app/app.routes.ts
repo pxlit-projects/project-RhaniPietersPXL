@@ -13,7 +13,7 @@ export const routes: Routes = [
     {path: 'drafts', component: DraftPostListComponent},
     {path: 'approve', component: ApprovalPostListComponent},
     {path: 'add', component: AddPostComponent},
-    {path: 'edit', component: EditPostComponent},
+    {path: 'edit/:id', component: EditPostComponent},
     {path: 'post/:id', component: PostDetailComponent},
     {path: '', redirectTo: 'login', pathMatch: 'full'},
 ];

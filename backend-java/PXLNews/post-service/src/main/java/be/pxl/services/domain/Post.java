@@ -26,4 +26,5 @@ public class Post {
     private Category category;
     @Enumerated(EnumType.STRING)
     private State state;
+    private String rejectedMessage;
 }

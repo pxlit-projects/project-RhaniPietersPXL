@@ -2,7 +2,7 @@
 	<h1 class="text-4xl font-bold text-text-primary mb-6">Posts</h1>
 	<app-filter (filterChanged)="handleFilter($event)"></app-filter>
 	<div class="grid grid-cols-1 gap-6">
-		@for (item of filteredData; track item.title) {
+		@for (item of filteredData; track item.id) {
 			<app-post-item [post]="item"></app-post-item>
 		}
 	</div>

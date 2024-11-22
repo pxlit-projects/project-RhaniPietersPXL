@@ -1,6 +1,5 @@
 package be.pxl.services.domain.dto;
 
-import be.pxl.services.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostUpdateRequest {
-    private String title;
-    private String content;
-    private Category category;
+public class PostRejectRequest {
+    String message;
 }
