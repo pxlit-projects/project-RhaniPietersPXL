@@ -78,8 +78,9 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
     askApproval(id: number): void {
         this.sub = this.postService.askApproval(id).subscribe({
-            next: () => {
+            next: (data) => {
                 this.postForm.reset();
+                this.post = data;
                 this.router.navigate(['/draft', this.id], {state: {post: this.post}});
             }
         });
