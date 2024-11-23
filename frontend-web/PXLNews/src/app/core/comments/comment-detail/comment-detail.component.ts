@@ -23,7 +23,6 @@ export class CommentDetailComponent implements OnInit, OnDestroy {
 
     post!: Post;
     comments: Comment[] = [];
-    commentMessage: string = '';
     showCommentInput: boolean = false;
 
     ngOnInit(): void {
@@ -45,11 +44,8 @@ export class CommentDetailComponent implements OnInit, OnDestroy {
         this.showCommentInput = !this.showCommentInput;
     }
 
-    commentOnPost(number: number) {
-        this.sub = this.commentService.commentOnPost(number, this.commentMessage).subscribe({
-            next: () => {
-                this.router.navigate(['/comment']);
-            }
-        });
+    onCommentAdded($event: Comment) {
+        this.showCommentInput = false;
+        this.comments.push($event);
     }
 }

@@ -3,11 +3,13 @@ export class Comment {
     title: string;
     content: string;
     author: string;
+    postId: number
 
-    constructor(title: string, content: string, author: string) {
+    constructor(title: string, content: string, author: string, postId: number) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.postId = postId;
     }
 }
 

@@ -1,9 +1,47 @@
-<div class="bg-gray-100 p-4 rounded-lg mt-4">
-	<h3 class="font-bold text-xl">{{ comment.title }}</h3>
-	<p class="mt-2">{{ comment.content }}</p>
+<div class="container mx-auto mt-5">
+	<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="mx-4">
+		<div class="mb-4">
+			<label for="title" class="block text-text-primary text-sm font-bold mb-2">Title:</label>
+			<input type="text" id="title" formControlName="title" [disabled]="!isEditing"
+				   class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
+			@if (commentForm.get('title')?.touched && commentForm.get('title')?.hasError('required')) {
+				<div class="text-error">Title is required</div>
+			}
+			@if (commentForm.get('title')?.touched && commentForm.get('title')?.hasError('minlength')) {
+				<div class="text-error">Title needs minimum 3 characters</div>
+			}
+		</div>
 
-	@if(comment.author == authservice.getUsername()){
-		<button (click)="onEdit()" class="text-blue-500 hover:text-blue-700">Edit</button>
-		<button (click)="onDelete()" class="text-red-500 hover:text-red-700">Delete</button>
-	}
+		<div class="mb-4">
+			<label for="content" class="block text-text-primary text-sm font-bold mb-2">Content:</label>
+			<textarea id="content" formControlName="content" [disabled]="!isEditing"
+					  class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+			@if (commentForm.get('content')?.touched && commentForm.get('content')?.hasError('required')) {
+				<div class="text-error">Content is required</div>
+			}
+		</div>
+
+		<button (click)="Add()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
+				class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Add
+		</button>
+
+		@if (comment.author == authservice.getUsername()) {
+			<button (click)="onEdit()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
+					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Edit
+			</button>
+			<button (click)="onDelete()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
+					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Delete
+			</button>
+		}
+		@if (isEditing) {
+			<button type="submit" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
+					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Save Changes
+			</button>
+			<button (click)="onCancel()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
+					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Cancel
+			</button>
+		}
+
+	</form>
 </div>
+

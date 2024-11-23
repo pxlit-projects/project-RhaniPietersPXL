@@ -14,9 +14,7 @@
 	</button>
 	@if (showCommentInput) {
 		<h3 class="text-xl font-bold">Add Comment</h3>
-		<textarea [(ngModel)]="commentMessage" class="w-full mt-2 p-2 border border-gray-300 rounded" placeholder="Provide a reason for rejection"></textarea>
-		<button (click)="commentOnPost(post.id!)"
-				class="mt-2 w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Send
-		</button>	}
+		<app-comment [postId]="post.id!" (commentAdded)="onCommentAdded($event)"></app-comment>
+	}
 </div>
 

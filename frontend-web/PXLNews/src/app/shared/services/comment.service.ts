@@ -11,17 +11,19 @@ export class CommentService {
     api: string = environment.apiUrlComment;
     http: HttpClient = inject(HttpClient);
 
-
-    //todo api nakijken
-    commentOnPost(number: number, commentMessage: string): Observable<Comment> {
-        return this.http.post<Comment>(`${this.api}/${number}/comment`, commentMessage);
+    commentOnPost(comment: Comment): Observable<Comment> {
+        return this.http.post<Comment>(`${this.api}/${comment.postId}`, comment);
     }
 
     getComments(id: number): Observable<Comment[]> {
-        return this.http.get<Comment[]>(`${this.api}/${id}/comments`);
+        return this.http.get<Comment[]>(`${this.api}/comments/${id}`);
     }
 
     deleteComment(number: number): Observable<Comment> {
         return this.http.delete<Comment>(`${this.api}/${number}`);
+    }
+
+    updateComment(updatedComment: Comment): Observable<Comment> {
+        return this.http.put<Comment>(`${this.api}/${updatedComment.id}`, updatedComment);
     }
 }

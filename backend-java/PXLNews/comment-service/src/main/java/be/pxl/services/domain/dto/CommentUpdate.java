@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest {
+public class CommentUpdate {
     private String title;
     private String content;
-    private String author;
-    private Long postId;
 }
-
-

@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from "../../../shared/services/post.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import { Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AsyncPipe, NgClass} from "@angular/common";
@@ -35,10 +35,10 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.post = history.state['post'];
-        this.postForm = this.fb.group({
-            title: [this.post.title, Validators.required],
-            content: [this.post.content, [Validators.required]],
-            category: [this.post.category, Validators.required],
+        this.postForm.patchValue({
+            title: this.post.title,
+            content: this.post.content,
+            category: this.post.category
         });
     }
 
@@ -50,13 +50,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
     onSubmit(): void {
         if (this.postForm.valid) {
-            const updatedPost = {...this.postForm.value};
-            updatedPost.id = this.id;
+            const updatedPost = {...this.post, ...this.postForm.value};
             if (this.postForm.dirty) {
                 this.editPost(updatedPost);
             } else if (this.action === 'approval') {
                 this.askApproval(this.id);
-            } else{
+            } else {
                 this.router.navigate(['/draft', this.id], {state: {post: this.post}});
             }
         }
