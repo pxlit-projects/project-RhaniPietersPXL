@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {PostItemComponent} from "../post-item/post-item.component";
-import {AddPostComponent} from "../add-post/add-post.component";
-import {FilterComponent} from "../filter/filter.component";
+import {PostItemComponent} from "../../posts/post-item/post-item.component";
+import {AddPostComponent} from "../../posts/add-post/add-post.component";
+import {FilterComponent} from "../../posts/filter/filter.component";
 import {PostService} from "../../../shared/services/post.service";
 import {Post} from "../../../shared/models/post.model";
 import {Filter} from "../../../shared/models/filter.model";
@@ -38,6 +38,6 @@ export class PublishedPostListComponent implements OnInit {
     }
 
     onPostDetails(item: Post) {
-        this.router.navigate(['/published', item.id, {state: {post: item}}]);
+        this.router.navigate(['/published', item.id], {state: {post: item}});
     }
 }

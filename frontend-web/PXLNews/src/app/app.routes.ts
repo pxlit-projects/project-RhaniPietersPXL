@@ -2,12 +2,12 @@ import { Routes } from '@angular/router';
 import {AddPostComponent} from "./core/posts/add-post/add-post.component";
 import {EditPostComponent} from "./core/posts/edit-post/edit-post.component";
 import {LoginComponent} from "./core/login/login.component";
-import {PublishedPostListComponent} from "./core/posts/published-post-list/published-post-list.component";
+import {PublishedPostListComponent} from "./core/comments/published-post-list/published-post-list.component";
 import {DraftPostListComponent} from "./core/posts/draft-post-list/draft-post-list.component";
-import {ApprovalPostListComponent} from "./core/posts/approval-post-list/approval-post-list.component";
+import {ApprovalPostListComponent} from "./core/reviews/approval-post-list/approval-post-list.component";
 import {DraftDetailComponent} from "./core/posts/draft-detail/draft-detail.component";
-import {CommentDetailComponent} from "./core/posts/comment-detail/comment-detail.component";
-import {ApproveDetailComponent} from "./core/posts/approve-detail/approve-detail.component";
+import {CommentDetailComponent} from "./core/comments/comment-detail/comment-detail.component";
+import {ApproveDetailComponent} from "./core/reviews/approve-detail/approve-detail.component";
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent,},

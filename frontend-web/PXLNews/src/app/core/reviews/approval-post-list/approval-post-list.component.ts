@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {PostItemComponent} from "../post-item/post-item.component";
+import {PostItemComponent} from "../../posts/post-item/post-item.component";
 import {Post} from "../../../shared/models/post.model";
 import {AuthService} from "../../../shared/services/auth.service";
 import {Router} from "@angular/router";

@@ -1,0 +1,9 @@
+<div class="bg-gray-100 p-4 rounded-lg mt-4">
+	<h3 class="font-bold text-xl">{{ comment.title }}</h3>
+	<p class="mt-2">{{ comment.content }}</p>
+
+	@if(comment.author == authservice.getUsername()){
+		<button (click)="onEdit()" class="text-blue-500 hover:text-blue-700">Edit</button>
+		<button (click)="onDelete()" class="text-red-500 hover:text-red-700">Delete</button>
+	}
+</div>

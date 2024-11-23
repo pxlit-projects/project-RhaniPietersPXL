@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPipe} from "@angular/common";
-import {DetailComponent} from "../detail/detail.component";
+import {DetailComponent} from "../../posts/detail/detail.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, Router, RouterLinkActive} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
