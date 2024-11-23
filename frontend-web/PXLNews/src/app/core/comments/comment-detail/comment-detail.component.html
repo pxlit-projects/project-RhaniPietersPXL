@@ -4,17 +4,22 @@
 		<div class="mt-4">
 			<h2 class="text-xl font-bold">Comments</h2>
 			@for (item of comments; track item.id) {
-				<app-comment [comment]="item" [postId]="post.id!"></app-comment>
+				<app-comment [comment]="item" [postId]="post.id!" (onCommentDeleted)="onDelete(item)" (onCommentEdit)="onEdit(item)"></app-comment>
 			}
 		</div>
 	}
 
-	<button (click)="toggleAddComment()"
-			class="w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Add Comment
-	</button>
+	@if (!showCommentInput && isUserLoggedIn) {
+		<button (click)="toggleAddComment()" class="w-full md:w-32 bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Add Comment
+		</button>
+	}
+	@if (!isUserLoggedIn) {
+		<div class="text-error mb-4">You must be logged in to comment.</div>
+	}
 	@if (showCommentInput) {
-		<h3 class="text-xl font-bold">Add Comment</h3>
-		<app-comment [postId]="post.id!" (commentAdded)="onCommentAdded($event)"></app-comment>
+		<div class="container mx-auto mt-5">
+			<h3 class="text-xl font-bold">Add Comment</h3>
+			<app-comment-form (submitComment)="onSubmitAdd($event)" (cancelEdit)="onCancelAdd()"></app-comment-form>
+		</div>
 	}
 </div>
-

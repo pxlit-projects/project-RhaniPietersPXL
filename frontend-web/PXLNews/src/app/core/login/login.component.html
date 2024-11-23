@@ -3,12 +3,14 @@
 		<h2 class="text-2xl font-semibold text-center mb-6 text-gray-800">Login</h2>
 		<div class="mb-4">
 			<label for="username" class="block text-sm font-medium text-gray-700">Naam:</label>
-			<input id="username" [(ngModel)]="username" placeholder="Voer je naam in" class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"/>
+			<input id="username" [(ngModel)]="username" placeholder="Voer je naam in"
+				   class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"/>
 		</div>
 
 		<div class="mb-6">
 			<label for="role" class="block text-sm font-medium text-gray-700">Rol:</label>
-			<select id="role" [(ngModel)]="selectedRole" class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+			<select id="role" [(ngModel)]="selectedRole"
+					class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
 				<option value="lezer">Lezer</option>
 				<option value="redacteur">Redacteur</option>
 			</select>
@@ -16,6 +18,8 @@
 		@if (errorMessage) {
 			<div class="text-error text-sm mb-4">{{ errorMessage }}</div>
 		}
-		<button (click)="login()" class="w-full bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">Inloggen</button>
+		<button (click)="login()" class="w-full bg-button-primary hover:bg-primary font-bold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-light transition duration-200">
+			Inloggen
+		</button>
 	</div>
 </div>

@@ -16,7 +16,7 @@ export class CommentService {
     }
 
     getComments(id: number): Observable<Comment[]> {
-        return this.http.get<Comment[]>(`${this.api}/comments/${id}`);
+        return this.http.get<Comment[]>(`${this.api}/${id}`);
     }
 
     deleteComment(number: number): Observable<Comment> {

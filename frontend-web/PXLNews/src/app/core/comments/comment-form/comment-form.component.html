@@ -1,0 +1,27 @@
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="mx-4">
+	<div class="mb-4">
+		<label for="title" class="block text-text-primary text-sm font-bold mb-2">Title:</label>
+		<input type="text" id="title" formControlName="title"
+			   class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
+		@if (commentForm.get('title')?.touched && commentForm.get('title')?.hasError('required')) {
+			<div class="text-error">Title is required</div>
+		}
+		@if (commentForm.get('title')?.touched && commentForm.get('title')?.hasError('minlength')) {
+			<div class="text-error">Title needs minimum 3 characters</div>
+		}
+	</div>
+	<div class="mb-4">
+		<label for="content" class="block text-text-primary text-sm font-bold mb-2">Content:</label>
+		<textarea id="content" formControlName="content"
+				  class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+		@if (commentForm.get('content')?.touched && commentForm.get('content')?.hasError('required')) {
+			<div class="text-error">Content is required</div>
+		}
+	</div>
+	<button type="submit" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
+			class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="!commentForm.valid">Save
+	</button>
+	<button type="button" (click)="cancel()" [ngClass]="{'bg-button-primary': true, 'hover:bg-secondary': true}"
+			class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4">Cancel
+	</button>
+</form>

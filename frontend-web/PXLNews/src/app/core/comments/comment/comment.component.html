@@ -1,47 +1,24 @@
-<div class="container mx-auto mt-5">
-	<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="mx-4">
-		<div class="mb-4">
-			<label for="title" class="block text-text-primary text-sm font-bold mb-2">Title:</label>
-			<input type="text" id="title" formControlName="title" [disabled]="!isEditing"
-				   class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
-			@if (commentForm.get('title')?.touched && commentForm.get('title')?.hasError('required')) {
-				<div class="text-error">Title is required</div>
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md mt-4 p-6">
+	<div class="flex justify-between items-start mb-4">
+		@if (!isEditing) {
+			<div class="flex flex-col">
+				<p class="text-xl font-semibold text-text-primary">{{ comment.title }}</p>
+				<p class="text-sm text-neutral-dark">By {{ comment.author }}</p>
+				<p class="text-text-primary mb-4">{{ comment.content }}</p>
+			</div>
+			@if (comment.author == authservice.getUsername()) {
+				<div class="flex flex-col items-end">
+					<button (click)="onEdit()" [ngClass]="{'bg-button-primary hover:bg-secondary': !isEditing, 'bg-neutral-light': isEditing}"
+							class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mb-2 w-full" [disabled]="isEditing">Edit
+					</button>
+					<button (click)="onDelete()" [ngClass]="{'bg-button-primary hover:bg-secondary': !isEditing, 'bg-neutral-light': isEditing}"
+							class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary w-full" [disabled]="isEditing">Delete
+					</button>
+				</div>
 			}
-			@if (commentForm.get('title')?.touched && commentForm.get('title')?.hasError('minlength')) {
-				<div class="text-error">Title needs minimum 3 characters</div>
-			}
-		</div>
-
-		<div class="mb-4">
-			<label for="content" class="block text-text-primary text-sm font-bold mb-2">Content:</label>
-			<textarea id="content" formControlName="content" [disabled]="!isEditing"
-					  class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
-			@if (commentForm.get('content')?.touched && commentForm.get('content')?.hasError('required')) {
-				<div class="text-error">Content is required</div>
-			}
-		</div>
-
-		<button (click)="Add()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
-				class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Add
-		</button>
-
-		@if (comment.author == authservice.getUsername()) {
-			<button (click)="onEdit()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
-					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Edit
-			</button>
-			<button (click)="onDelete()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
-					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Delete
-			</button>
+		} @else {
+			<app-comment-form [comment]="this.comment" (submitComment)="onSubmitEdit($event)" (cancelEdit)="onCancelEdit()"></app-comment-form>
 		}
-		@if (isEditing) {
-			<button type="submit" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
-					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Save Changes
-			</button>
-			<button (click)="onCancel()" [ngClass]="{'bg-button-primary hover:bg-secondary': commentForm.valid, 'bg-neutral-light': !commentForm.valid}"
-					class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="isEditing">Cancel
-			</button>
-		}
-
-	</form>
+	</div>
 </div>
 

@@ -56,6 +56,7 @@ public class CommentService implements ICommentService {
                 .author(commentRequest.getAuthor())
                 .postId(postId)
                 .build();
+        log.info("Creating comment for post with auhor: {}", commentRequest.getAuthor());
         commentRepository.save(comment);
         return mapToCommentResponse(comment);
     }

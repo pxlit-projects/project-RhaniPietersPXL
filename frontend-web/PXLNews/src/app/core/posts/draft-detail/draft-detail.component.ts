@@ -6,7 +6,6 @@ import {AuthService} from "../../../shared/services/auth.service";
 import {Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {DetailComponent} from "../detail/detail.component";
-import {state} from "@angular/animations";
 
 @Component({
     selector: 'app-draft-detail',

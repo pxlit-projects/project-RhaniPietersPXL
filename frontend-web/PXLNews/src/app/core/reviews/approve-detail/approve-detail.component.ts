@@ -2,10 +2,9 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPipe} from "@angular/common";
 import {DetailComponent} from "../../posts/detail/detail.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ActivatedRoute, Router, RouterLinkActive} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {Router, RouterLinkActive} from "@angular/router";
+import {Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
-import {PostService} from "../../../shared/services/post.service";
 import {AuthService} from "../../../shared/services/auth.service";
 import {ReviewService} from "../../../shared/services/review.service";
 
