@@ -1,8 +1,8 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DetailComponent} from "../../posts/detail/detail.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import { Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {CommentService} from "../../../shared/services/comment.service";
 import {Comment} from "../../../shared/models/comment.model";
