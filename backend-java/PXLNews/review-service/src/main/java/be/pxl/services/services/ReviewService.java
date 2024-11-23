@@ -8,6 +8,7 @@ import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.ReviewResponse;
 import be.pxl.services.repository.ReviewRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -78,9 +79,12 @@ public class ReviewService implements IReviewService {
         log.info("Rejecting post");
         Review review = reviewRepository.findByPostId(postId).orElseThrow();
         ReviewApprovalMessage reviewResponse = new ReviewApprovalMessage();
+
         reviewResponse.setPostId(postId);
         reviewResponse.setState(String.valueOf(State.REJECTED));
         reviewResponse.setRejectedMessage(rejectionMessage);
+        log.info("setting id to {} and state to {}, rejected message to {}", reviewResponse.getPostId(), reviewResponse.getState(), reviewResponse.getRejectedMessage());
+
         rabbitTemplate.convertAndSend("setReview", reviewResponse);
 
         //TODO send message to notification service

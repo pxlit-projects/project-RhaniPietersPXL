@@ -46,10 +46,9 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PostMapping("/{id}/approval")
-    public ResponseEntity<Void> getApproval(@PathVariable Long id) {
+    public ResponseEntity<PostResponse> getApproval(@PathVariable Long id) {
         log.info("Ask approval for post with id {}", id);
-        postService.getApproval(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(postService.getApproval(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

@@ -93,7 +93,7 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void getApproval(Long id) {
+    public PostResponse getApproval(Long id) {
         log.info("Sending template for approval {} ...", id);
         Post post = postRepository.findById(id).orElseThrow();
         post.setRejectedMessage("");
@@ -104,11 +104,12 @@ public class PostService implements IPostService {
                 .postId(post.getId())
                 .build();
         rabbitTemplate.convertAndSend("getApproval", reviewRequest );
+        return mapToPostResponse(post);
     }
 
     @RabbitListener(queues = "setReview")
     public void setReviewStatus(ReviewApprovalMessage response) {
-        log.info("Changing state of post with id {} after review", response.getState());
+        log.info("Changing state of post with id {} after review to ", response.getPostId(), response.getState());
         Post post = postRepository.findById(response.getPostId()).orElseThrow();
         post.setState(State.valueOf(response.getState()));
         post.setRejectedMessage(response.getRejectedMessage());

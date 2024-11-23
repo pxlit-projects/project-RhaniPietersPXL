@@ -32,7 +32,7 @@ export class ApproveDetailComponent implements OnInit, OnDestroy {
 
     approvePost(id: number) {
         this.sub = this.reviewService.approvePost(id).subscribe({
-            next: (data) => {
+            next: () => {
                 this.router.navigate(['/approve']);
             }
         });
@@ -45,7 +45,7 @@ export class ApproveDetailComponent implements OnInit, OnDestroy {
             return;
         }
         this.sub = this.reviewService.rejectPost(id, this.rejectMessage).subscribe({
-            next: (data) => {
+            next: () => {
                 this.router.navigate(['/approve']);
             }
         });

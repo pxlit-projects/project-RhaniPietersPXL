@@ -17,7 +17,7 @@ public interface IPostService {
 
     void deletePostById(Long id);
 
-    void getApproval(Long id);
+    PostResponse getApproval(Long id);
 
     List<PostResponse> getDraftsFromAuthor(String author);
 
