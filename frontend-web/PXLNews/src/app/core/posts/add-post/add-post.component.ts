@@ -5,19 +5,17 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Post} from "../../../shared/models/post.model";
 import {NgClass, NgIf} from "@angular/common";
 import {AuthService} from "../../../shared/services/auth.service";
+import {CanComponentDeactivate} from "../../../confirm-leave.guard";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-add-post',
     standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        NgClass,
-        NgIf
-    ],
+    imports: [ReactiveFormsModule, NgClass, NgIf],
     templateUrl: './add-post.component.html',
     styleUrl: './add-post.component.css'
 })
-export class AddPostComponent {
+export class AddPostComponent implements CanComponentDeactivate {
     postService: PostService = inject(PostService);
     authService: AuthService = inject(AuthService);
     router: Router = inject(Router);
@@ -55,5 +53,11 @@ export class AddPostComponent {
                 });
             }
         }
+    }
+    canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+        if (this.postForm.dirty) {
+            return window.confirm('Are you sure you want to leave this page?');
+        }
+        return true;
     }
 }

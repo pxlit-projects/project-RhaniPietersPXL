@@ -1,10 +1,12 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from "../../../shared/services/post.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AsyncPipe, NgClass} from "@angular/common";
+import {CanComponentDeactivate} from "../../../confirm-leave.guard";
+import {data} from "autoprefixer";
 
 @Component({
     selector: 'app-edit-post',
@@ -13,7 +15,7 @@ import {AsyncPipe, NgClass} from "@angular/common";
     templateUrl: './edit-post.component.html',
     styleUrl: './edit-post.component.css'
 })
-export class EditPostComponent implements OnInit, OnDestroy {
+export class EditPostComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     postService: PostService = inject(PostService);
     router: Router = inject(Router);
     route: ActivatedRoute = inject(ActivatedRoute);
@@ -87,6 +89,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
     cancel(): void {
         this.router.navigate(['/draft', this.id], {state: {post: this.post}});
+    }
+
+    canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+        if (this.postForm.dirty) {
+            return window.confirm('Are you sure you want to leave this page?');
+        }
+        return true;
     }
 }
 

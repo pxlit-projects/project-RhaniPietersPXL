@@ -2,6 +2,8 @@ import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/c
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Comment} from "../../../shared/models/comment.model";
 import {NgClass} from "@angular/common";
+import {CanComponentDeactivate} from "../../../confirm-leave.guard";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-comment-form',
@@ -10,7 +12,7 @@ import {NgClass} from "@angular/common";
     templateUrl: './comment-form.component.html',
     styleUrl: './comment-form.component.css'
 })
-export class CommentFormComponent implements OnInit {
+export class CommentFormComponent implements OnInit, CanComponentDeactivate {
     @Input() comment!: Comment | null;
     @Output() submitComment = new EventEmitter<Comment>();
     @Output() cancelEdit = new EventEmitter<void>();
@@ -52,5 +54,12 @@ export class CommentFormComponent implements OnInit {
     cancel() {
         this.cancelEdit.emit();
         this.commentForm.reset();
+    }
+
+    canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+        if (this.commentForm.dirty) {
+            return window.confirm('Are you sure you want to leave this page?');
+        }
+        return true;
     }
 }

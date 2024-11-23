@@ -8,19 +8,20 @@ import {ApprovalPostListComponent} from "./core/reviews/approval-post-list/appro
 import {DraftDetailComponent} from "./core/posts/draft-detail/draft-detail.component";
 import {CommentDetailComponent} from "./core/comments/comment-detail/comment-detail.component";
 import {ApproveDetailComponent} from "./core/reviews/approve-detail/approve-detail.component";
+import {confirmLeaveGuard} from "./confirm-leave.guard";
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent,},
     {path: 'published', component: PublishedPostListComponent},
-    {path: 'published/:id', component: CommentDetailComponent},
+    {path: 'published/:id', component: CommentDetailComponent, canDeactivate: [confirmLeaveGuard]},
     {path: 'drafts', component: DraftPostListComponent},
     {path: 'draft/:id', component: DraftDetailComponent},
-    {path: 'edit/:id', component: EditPostComponent},
+    {path: 'edit/:id', component: EditPostComponent, canDeactivate: [confirmLeaveGuard]},
 
     {path: 'approve', component: ApprovalPostListComponent},
     {path: 'approve/:id', component: ApproveDetailComponent},
 
-    {path: 'add', component: AddPostComponent},
+    {path: 'add', component: AddPostComponent, canDeactivate: [confirmLeaveGuard]},
     {path: '', redirectTo: 'login', pathMatch: 'full'},
 ];
 
