@@ -7,6 +7,7 @@ export class Post {
     category: string;
     state: string;
     rejectedMessage: string;
+    commentCount?: number
 
     constructor(title: string, content: string, author: string, creationDate: string, category: string, state: string, rejectedMessage: string) {
         this.title = title;

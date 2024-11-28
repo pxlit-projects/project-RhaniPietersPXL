@@ -26,16 +26,15 @@ export class PostService {
 
     filterPosts(filter: Filter): Observable<Post[]> {
         return this.http.get<Post[]>(this.api).pipe(
-            map((customers: Post[]) => customers.filter(customer => this.isPostMatchingFilter(customer, filter)))
+            map((posts: Post[]) => posts.filter(post => this.isPostMatchingFilter(post, filter)))
         );
     }
 
     private isPostMatchingFilter(post: Post, filter: Filter) {
         const matchesContent = post.content.toLowerCase().includes(filter.content.toLowerCase());
         const matchesAuthor = post.author.toLowerCase().includes(filter.author.toLowerCase());
-        const matchesTitle = post.title.toLowerCase().includes(filter.author.toLowerCase());
-
-        return matchesContent && matchesAuthor && matchesTitle;
+        const matchesCategory = post.category.toLowerCase().includes(filter.category.toLowerCase());
+        return matchesContent && matchesAuthor && matchesCategory;
     }
 
     addPost(post: Post): Observable<Post> {
@@ -44,10 +43,6 @@ export class PostService {
 
     savePostAsDraft(newPost: Post): Observable<Post> {
         return this.http.post<Post>(this.api, newPost);
-    }
-
-    getPost(id: number) : Observable<Post> {
-        return this.http.get<Post>(`${this.api}/${id}`);
     }
 
     updatePost(post: Post): Observable<Post> {

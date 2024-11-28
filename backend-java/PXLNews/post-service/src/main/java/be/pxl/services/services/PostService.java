@@ -2,6 +2,7 @@ package be.pxl.services.services;
 
 import be.pxl.services.Domain.ReviewApprovalMessage;
 import be.pxl.services.Domain.ReviewRequestMessage;
+import be.pxl.services.client.CommentClient;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.*;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService implements IPostService {
     private final PostRepository postRepository;
+    private final CommentClient commentClient;
+
     private static final Logger log = LoggerFactory.getLogger(PostService.class);
 
     @Autowired
@@ -71,7 +74,11 @@ public class PostService implements IPostService {
     @Override
     public List<PostResponse> getAllPublishedPosts() {
         List<Post> posts = postRepository.findByState(State.PUBLISHED);
-        return posts.stream().map(this::mapToPostResponse).toList();
+        List<PostResponse> postResponses = posts.stream().map(this::mapToPostResponse).toList();
+        for (PostResponse post : postResponses) {
+            post.setCommentCount(commentClient.getCommentCountForPost(post.getId()));
+        }
+        return postResponses;
     }
 
     @Override
@@ -103,24 +110,21 @@ public class PostService implements IPostService {
                 .author(post.getAuthor())
                 .postId(post.getId())
                 .build();
-        rabbitTemplate.convertAndSend("getApproval", reviewRequest );
+        rabbitTemplate.convertAndSend("getApproval", reviewRequest);
         return mapToPostResponse(post);
     }
 
     @RabbitListener(queues = "setReview")
     public void setReviewStatus(ReviewApprovalMessage response) {
-        log.info("Changing state of post with id {} after review to ", response.getPostId(), response.getState());
+        log.info("Changing state of post with id {} after review to ", response.getPostId());
         Post post = postRepository.findById(response.getPostId()).orElseThrow();
         post.setState(State.valueOf(response.getState()));
         post.setRejectedMessage(response.getRejectedMessage());
         postRepository.save(post);
     }
 
-
     @Override
     public void publishPost(Long id) {
-        //TODO ook bij andere service?
-        //TODO controle op status?
         Post post = postRepository.findById(id).orElseThrow();
         post.setState(State.PUBLISHED);
         postRepository.save(post);

@@ -22,4 +22,5 @@ public class PostResponse {
     private Category category;
     private State state;
     private String rejectedMessage;
+    private Integer commentCount;
 }

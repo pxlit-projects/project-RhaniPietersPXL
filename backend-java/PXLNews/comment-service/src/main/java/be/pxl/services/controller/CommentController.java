@@ -44,4 +44,10 @@ public class CommentController {
         log.info("Creating comment for post with id: {}", postId);
         return new ResponseEntity<>(commentService.createComment(postId, commentRequest), HttpStatus.CREATED);
     }
+
+    @GetMapping("count/{postId}")
+    public ResponseEntity<Integer> getCommentCount(@PathVariable Long postId) {
+        log.info("Fetching comment count for post with id: {}", postId);
+        return new ResponseEntity<>(commentService.getCommentCount(postId), HttpStatus.OK);
+    }
 }

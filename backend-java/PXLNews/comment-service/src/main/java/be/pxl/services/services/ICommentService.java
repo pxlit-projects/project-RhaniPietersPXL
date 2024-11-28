@@ -16,6 +16,8 @@ public interface ICommentService {
     void deleteComment(Long id);
 
     CommentResponse createComment(Long postId, CommentRequest commentRequest);
+
+    Integer getCommentCount(Long postId);
 }
 
 

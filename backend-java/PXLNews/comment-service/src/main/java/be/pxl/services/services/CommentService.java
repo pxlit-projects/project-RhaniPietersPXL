@@ -60,4 +60,10 @@ public class CommentService implements ICommentService {
         commentRepository.save(comment);
         return mapToCommentResponse(comment);
     }
+
+    @Override
+    public Integer getCommentCount(Long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return (comments == null) ? 0 : comments.size();
+    }
 }
