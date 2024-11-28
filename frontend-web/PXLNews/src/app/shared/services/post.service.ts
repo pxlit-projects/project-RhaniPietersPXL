@@ -4,14 +4,12 @@ import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Post} from "../models/post.model";
 import {Filter} from "../models/filter.model";
-import {AuthService} from "./auth.service";
 
 @Injectable({
     providedIn: 'root'
 })
-//  ng serve --proxy-config src/proxy.conf.json
+
 export class PostService {
-    //TODO nakijken urls environments!
     api: string = environment.apiUrlPost;
     http: HttpClient = inject(HttpClient);
 

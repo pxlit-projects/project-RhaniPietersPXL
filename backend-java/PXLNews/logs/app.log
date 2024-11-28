@@ -1195,3 +1195,33 @@
 2024-11-28T18:53:19.461+0100 INFO               [http-nio-8083-exec-10]        be.pxl.services.controller.CommentController - Fetching comment count for post with id: 54
 2024-11-28T18:53:19.468+0100 INFO               [http-nio-8083-exec-1]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 55
 2024-11-28T18:53:19.473+0100 INFO               [http-nio-8083-exec-2]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 353
+2024-11-28T19:07:57.255+0100 INFO               [http-nio-8081-exec-9]         be.pxl.services.controller.PostController - Fetching all posts
+2024-11-28T19:07:57.271+0100 INFO               [http-nio-8083-exec-4]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 53
+2024-11-28T19:07:57.288+0100 INFO               [http-nio-8083-exec-7]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 54
+2024-11-28T19:07:57.294+0100 INFO               [http-nio-8083-exec-5]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 55
+2024-11-28T19:07:57.300+0100 INFO               [http-nio-8083-exec-8]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 353
+2024-11-28T19:07:58.342+0100 INFO               [http-nio-8081-exec-6]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-11-28T19:07:58.342+0100 INFO               [http-nio-8081-exec-6]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-11-28T19:07:58.930+0100 INFO               [http-nio-8082-exec-7]         be.pxl.services.services.ReviewService - Fetching posts to review not from author rhani
+2024-11-28T19:07:58.942+0100 INFO               [http-nio-8082-exec-7]         be.pxl.services.services.ReviewService - Found 0 posts to review
+2024-11-28T19:08:01.872+0100 INFO               [http-nio-8081-exec-7]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-11-28T19:08:01.872+0100 INFO               [http-nio-8081-exec-7]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-11-28T19:12:16.029+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.controller.PostController - Fetching all posts
+2024-11-28T19:12:16.046+0100 INFO               [http-nio-8083-exec-9]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 53
+2024-11-28T19:12:16.057+0100 INFO               [http-nio-8083-exec-10]        be.pxl.services.controller.CommentController - Fetching comment count for post with id: 54
+2024-11-28T19:12:16.099+0100 INFO               [http-nio-8083-exec-1]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 55
+2024-11-28T19:12:16.111+0100 INFO               [http-nio-8083-exec-2]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 353
+2024-11-28T19:14:27.530+0100 INFO               [http-nio-8081-exec-3]         be.pxl.services.controller.PostController - Fetching all posts
+2024-11-28T19:14:27.544+0100 INFO               [http-nio-8083-exec-4]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 53
+2024-11-28T19:14:27.555+0100 INFO               [http-nio-8083-exec-7]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 54
+2024-11-28T19:14:27.560+0100 INFO               [http-nio-8083-exec-5]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 55
+2024-11-28T19:14:27.565+0100 INFO               [http-nio-8083-exec-8]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 353
+2024-11-28T19:14:30.184+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-11-28T19:14:30.185+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-11-28T19:14:31.115+0100 INFO               [http-nio-8081-exec-5]         be.pxl.services.controller.PostController - Fetching all posts
+2024-11-28T19:14:31.123+0100 INFO               [http-nio-8083-exec-6]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 53
+2024-11-28T19:14:31.130+0100 INFO               [http-nio-8083-exec-9]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 54
+2024-11-28T19:14:31.138+0100 INFO               [http-nio-8083-exec-10]        be.pxl.services.controller.CommentController - Fetching comment count for post with id: 55
+2024-11-28T19:14:31.142+0100 INFO               [http-nio-8083-exec-1]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 353
+2024-11-28T19:14:41.006+0100 INFO               [http-nio-8081-exec-8]         be.pxl.services.controller.PostController - Fetching drafts by author null
+2024-11-28T19:14:41.006+0100 INFO               [http-nio-8081-exec-8]         be.pxl.services.services.PostService - Fetching drafts by author null
