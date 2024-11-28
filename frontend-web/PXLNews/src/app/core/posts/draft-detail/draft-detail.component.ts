@@ -23,7 +23,6 @@ export class DraftDetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.post = history.state['post'];
-        console.log(this.authServ.getUsername());
     }
 
     ngOnDestroy(): void {

@@ -17,13 +17,13 @@ import {Router} from "@angular/router";
 export class PublishedPostListComponent implements OnInit {
     postService: PostService = inject(PostService);
     router: Router = inject(Router);
-    filteredData!: Post[];
+    filteredData!: Post[] | undefined;
 
     ngOnInit(): void {
         this.fetchData();
     }
 
-    private fetchData() {
+    fetchData() {
         this.postService.getPublishedPosts().subscribe({
             next: posts => {
                 this.filteredData = posts;
