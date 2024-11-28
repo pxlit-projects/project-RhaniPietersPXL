@@ -9,9 +9,17 @@ De client maakt gebruik van Angular voor de front-end applicatie die met de vers
 ## API Gateway
 In dit project fungeert de gateway-service als tussenpersoon die inkomende verzoeken van clients naar de juiste microservices doorstuurt. Het maakt gebruik van **Eureka** voor service discovery, wat betekent dat het automatisch de locatie van de microservices kan vinden en verzoeken naar hen kan routeren.
 
-## Auth Server [KeyCloak]
-**Keycloak** wordt gebruikt voor gebruikersauthenticatie en -autorisatie. 
-Dit wordt geïmplementeerd in de **AuthService** in het bestand `approval-post-list.component.ts`. De **AuthService** wordt geïnjecteerd in de component en gebruikt om de gebruikersnaam van de ingelogde gebruiker op te halen met de methode `getUsername()`. Deze gebruikersnaam wordt vervolgens gebruikt om de goedgekeurde berichten op te halen via de **ReviewService**.
+## Auth Server [Keycloak]
+**Keycloak** wordt gebruikt voor gebruikersauthenticatie en -autorisatie. Dit wordt geïmplementeerd in de **AuthService**. De **AuthService** wordt geïnjecteerd in de component en gebruikt om de gebruikersnaam van de ingelogde gebruiker op te halen met de methode `getUsername()`.
+De **AuthService** is verantwoordelijk voor het beheren van gebruikersauthenticatie en -autorisatie. Het biedt methoden om de gebruikersnaam en rol van de momenteel ingelogde gebruiker in te stellen en op te halen, te controleren of een gebruiker is ingelogd en de gebruiker uit te loggen. Hier is een korte uitleg van de methoden:
+- **setUser(username: string, role: 'redacteur' | 'lezer')**: Stelt de gebruikersnaam en rol van de gebruiker in.
+- **getUsername()**: Retourneert de gebruikersnaam van de momenteel ingelogde gebruiker.
+- **getRole()**: Retourneert de rol van de momenteel ingelogde gebruiker.
+- **isLoggedIn()**: Controleert of een gebruiker is ingelogd door te verifiëren of zowel de gebruikersnaam als de rol niet null zijn.
+- **logout()**: Logt de gebruiker uit door de gebruikersnaam en rol naar null in te stellen.
+
+Wanneer een gebruiker zich aanmeldt, wordt hij omgeleid naar de **Keycloak**-authenticatieserver waar hij zijn inloggegevens verstrekt. Als de inloggegevens correct zijn, ontvangt de client een **access token** en een **refresh token**. Het access token wordt vervolgens meegestuurd bij elke API-aanroep om toegang te krijgen tot de microservices, waarbij Keycloak het token valideert en de bijbehorende autorisatie controleert.
+
 
 ## Post Service (Open-Feign)
 De **Post Service** is verantwoordelijk voor het beheer van de berichten. Het verwerkt bewerkingen zoals het maken, ophalen, bijwerken en verwijderen van berichten. Het kan ook communiceren met andere diensten, zoals de comment- of review-service, om uitgebreide functionaliteit te bieden. Dit gebeurt ook via **RabbitMQ** om goedkeuring van een post aan te vragen bij de **Review Service**.
