@@ -1,8 +1,8 @@
-import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {DetailComponent} from "../../posts/detail/detail.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
-import { Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {CommentService} from "../../../shared/services/comment.service";
 import {Comment} from "../../../shared/models/comment.model";
@@ -11,6 +11,7 @@ import {PostItemComponent} from "../../posts/post-item/post-item.component";
 import {NgClass} from "@angular/common";
 import {AuthService} from "../../../shared/services/auth.service";
 import {CommentFormComponent} from "../comment-form/comment-form.component";
+import {CanComponentDeactivate} from "../../../confirm-leave.guard";
 
 @Component({
     selector: 'app-comment-detail',
@@ -19,7 +20,9 @@ import {CommentFormComponent} from "../comment-form/comment-form.component";
     templateUrl: './comment-detail.component.html',
     styleUrl: './comment-detail.component.css'
 })
-export class CommentDetailComponent implements OnInit, OnDestroy  {
+export class CommentDetailComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+    @ViewChild(CommentFormComponent) formComponent!: CommentFormComponent;
+
     commentService: CommentService = inject(CommentService);
     authService: AuthService = inject(AuthService);
     router: Router = inject(Router);
@@ -73,5 +76,12 @@ export class CommentDetailComponent implements OnInit, OnDestroy  {
     onEdit(updatedComment: Comment) {
         const commentIndex = this.comments.findIndex(comment => comment.id === updatedComment.id);
         this.comments[commentIndex] = updatedComment;
+    }
+
+    canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+        if (this.formComponent && this.formComponent.commentForm.dirty) {
+            return window.confirm('Are you sure you want to leave this page?');
+        }
+        return true;
     }
 }

@@ -7,7 +7,7 @@ import be.pxl.services.domain.dto.PostUpdateRequest;
 import java.util.List;
 
 public interface IPostService {
-    void addNewPost(PostCreateRequest newPost);
+    PostResponse addNewPost(PostCreateRequest newPost);
 
     PostResponse editPost(PostUpdateRequest editedPost, Long id);
 

@@ -1,5 +1,14 @@
-import {Component, EventEmitter, inject, Input, OnDestroy, Output} from '@angular/core';
-import {Subscription} from "rxjs";
+import {
+    Component,
+    EventEmitter,
+    inject,
+    Input,
+    OnDestroy,
+    Output,
+    QueryList,
+    ViewChildren
+} from '@angular/core';
+import {Observable, Subscription} from "rxjs";
 import {CommentService} from "../../../shared/services/comment.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth.service";
@@ -7,6 +16,7 @@ import {Comment} from "../../../shared/models/comment.model";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgClass} from "@angular/common";
 import {CommentFormComponent} from "../comment-form/comment-form.component";
+import {CanComponentDeactivate} from "../../../confirm-leave.guard";
 
 @Component({
     selector: 'app-comment',
@@ -15,7 +25,9 @@ import {CommentFormComponent} from "../comment-form/comment-form.component";
     templateUrl: './comment.component.html',
     styleUrl: './comment.component.css'
 })
-export class CommentComponent implements OnDestroy {
+export class CommentComponent implements OnDestroy, CanComponentDeactivate {
+    @ViewChildren(CommentFormComponent) formComponents!: QueryList<CommentFormComponent>;
+
     commentService: CommentService = inject(CommentService);
     authservice: AuthService = inject(AuthService);
     router: Router = inject(Router);
@@ -59,4 +71,14 @@ export class CommentComponent implements OnDestroy {
             }
         });
     }
+
+    canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+        for (let form of this.formComponents.toArray()) {
+            if (form.commentForm.dirty) {
+                return window.confirm('Are you sure you want to leave this page?');
+            }
+        }
+        return true;
+    }
+
 }

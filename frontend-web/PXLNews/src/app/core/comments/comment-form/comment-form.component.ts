@@ -30,7 +30,6 @@ export class CommentFormComponent implements OnInit, CanComponentDeactivate {
                 content: this.comment.content,
             });
         }
-        console.log('comment', this.comment);
     }
 
     onSubmit() {

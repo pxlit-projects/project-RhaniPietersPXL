@@ -4,7 +4,7 @@ import { CanDeactivateFn } from '@angular/router';
 import { confirmLeaveGuard } from './confirm-leave.guard';
 
 describe('confirmLeaveGuard', () => {
-  const executeGuard: CanDeactivateFn = (...guardParameters) => 
+  const executeGuard: CanDeactivateFn<any> = (...guardParameters) =>
       TestBed.runInInjectionContext(() => confirmLeaveGuard(...guardParameters));
 
   beforeEach(() => {

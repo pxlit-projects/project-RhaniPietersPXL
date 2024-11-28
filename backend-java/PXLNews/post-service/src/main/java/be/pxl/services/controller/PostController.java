@@ -40,10 +40,9 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> add(@RequestBody PostCreateRequest newPost) {
+    public ResponseEntity<PostResponse> add(@RequestBody PostCreateRequest newPost) {
         log.info("Adding new post: {}", newPost.getTitle());
-        postService.addNewPost(newPost);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<PostResponse>(postService.addNewPost(newPost), HttpStatus.CREATED);
     }
     @PostMapping("/{id}/approval")
     public ResponseEntity<PostResponse> getApproval(@PathVariable Long id) {

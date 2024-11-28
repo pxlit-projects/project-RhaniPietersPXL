@@ -1,5 +1,6 @@
 package be.pxl.services.services;
 
+import be.pxl.services.Domain.NotificationRequest;
 import be.pxl.services.Domain.ReviewApprovalMessage;
 import be.pxl.services.Domain.ReviewRequestMessage;
 import be.pxl.services.client.PostClient;
@@ -8,7 +9,6 @@ import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.ReviewResponse;
 import be.pxl.services.repository.ReviewRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -28,7 +28,6 @@ public class ReviewService implements IReviewService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
 
     @RabbitListener(queues = "getApproval")
     public void setPostForApproval(ReviewRequestMessage request) {
@@ -55,7 +54,6 @@ public class ReviewService implements IReviewService {
                 }).toList();
     }
 
-
     @Override
     public void approvePost(Long postId) {
         log.info("Approving post");
@@ -67,7 +65,15 @@ public class ReviewService implements IReviewService {
         reviewResponse.setRejectedMessage("");
         rabbitTemplate.convertAndSend("setReview", reviewResponse);
 
-        //TODO send message to notification service
+        log.info("sending email to author");
+
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .to("rhanipieters@hotmail.com")
+                .subject("Post approved")
+                .body("Your post has been approved successfully.")
+                .build();
+        rabbitTemplate.convertAndSend("sendEmail", notificationRequest);
 
         reviewRepository.delete(review);
         log.info("Review with postId {} has been approved and removed from the database", postId);
@@ -87,7 +93,12 @@ public class ReviewService implements IReviewService {
 
         rabbitTemplate.convertAndSend("setReview", reviewResponse);
 
-        //TODO send message to notification service
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .to("rhanipieters@hotmail.com")
+                .subject("Post rejected")
+                .body("Your post has been rejected. Reason: " + rejectionMessage)
+                .build();
+        rabbitTemplate.convertAndSend("sendEmail", notificationRequest);
 
         reviewRepository.delete(review);
         log.info("Review with postId {} has been rejected and removed from the database", postId);

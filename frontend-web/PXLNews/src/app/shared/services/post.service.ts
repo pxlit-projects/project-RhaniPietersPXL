@@ -15,7 +15,6 @@ export class PostService {
     api: string = environment.apiUrlPost;
     http: HttpClient = inject(HttpClient);
 
-    //TODO naar comment service
     getPublishedPosts(): Observable<Post[]> {
         return this.http.get<Post[]>(this.api);
     }

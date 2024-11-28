@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {PostService} from "../../../shared/services/post.service";
 import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {Post} from "../../../shared/models/post.model";
 import {NgClass, NgIf} from "@angular/common";
 import {AuthService} from "../../../shared/services/auth.service";
@@ -11,7 +11,7 @@ import {Observable} from "rxjs";
 @Component({
     selector: 'app-add-post',
     standalone: true,
-    imports: [ReactiveFormsModule, NgClass, NgIf],
+    imports: [FormsModule, NgClass, NgIf],
     templateUrl: './add-post.component.html',
     styleUrl: './add-post.component.css'
 })
@@ -25,37 +25,50 @@ export class AddPostComponent implements CanComponentDeactivate {
         this.action = action;
     }
 
-    fb: FormBuilder = inject(FormBuilder);
-    postForm: FormGroup = this.fb.group({
-        title: ['', Validators.required],
-        content: ['', [Validators.required]],
-        category: ['', Validators.required],
-    });
+    postForm: Post = {
+        creationDate: "",
+        state: "",
+        title: '',
+        content: '',
+        category: '',
+        author: this.authService.getUsername()!
+    };
 
-    onSubmit(): void {
-        if (this.postForm.valid) {
+    onSubmit(data: Object): void {
+        if (this.postForm.title && this.postForm.content && this.postForm.category) {
             const newPost: Post = {
-                ...this.postForm.value,
-                author: this.authService.getUsername(),
+                ...this.postForm,
                 creationDate: new Date().toISOString(),
-                state: this.action === 'publish' ? 'PENDING_APPROVAL' : 'DRAFT',
+                state: this.action === 'approval' ? 'PENDING_APPROVAL' : 'DRAFT',
             };
 
-            if (this.action === 'publish') {
-                this.postService.addPost(newPost).subscribe(post => {
-                    this.postForm.reset();
+            if (this.action === 'approval') {
+                this.postService.addPost(newPost).subscribe(() => {
+                    this.resetForm();
                     this.router.navigate(['/drafts']);
                 });
             } else if (this.action === 'draft') {
-                this.postService.savePostAsDraft(newPost).subscribe(post => {
-                    this.postForm.reset();
+                this.postService.savePostAsDraft(newPost).subscribe(() => {
+                    this.resetForm();
                     this.router.navigate(['/drafts']);
                 });
             }
         }
     }
+
+    resetForm(): void {
+        this.postForm = {
+            creationDate: "",
+            state: "",
+            title: '',
+            content: '',
+            category: '',
+            author: this.authService.getUsername()!
+        };
+    }
+
     canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-        if (this.postForm.dirty) {
+        if (this.postForm.title || this.postForm.content || this.postForm.category) {
             return window.confirm('Are you sure you want to leave this page?');
         }
         return true;

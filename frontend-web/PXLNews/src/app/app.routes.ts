@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {AddPostComponent} from "./core/posts/add-post/add-post.component";
 import {EditPostComponent} from "./core/posts/edit-post/edit-post.component";
 import {LoginComponent} from "./core/login/login.component";
@@ -9,11 +9,14 @@ import {DraftDetailComponent} from "./core/posts/draft-detail/draft-detail.compo
 import {CommentDetailComponent} from "./core/comments/comment-detail/comment-detail.component";
 import {ApproveDetailComponent} from "./core/reviews/approve-detail/approve-detail.component";
 import {confirmLeaveGuard} from "./confirm-leave.guard";
+import {CommentComponent} from "./core/comments/comment/comment.component";
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent,},
     {path: 'published', component: PublishedPostListComponent},
-    {path: 'published/:id', component: CommentDetailComponent, canDeactivate: [confirmLeaveGuard]},
+    {
+        path: 'published/:id', component: CommentDetailComponent, canDeactivate: [confirmLeaveGuard],
+    },
     {path: 'drafts', component: DraftPostListComponent},
     {path: 'draft/:id', component: DraftDetailComponent},
     {path: 'edit/:id', component: EditPostComponent, canDeactivate: [confirmLeaveGuard]},

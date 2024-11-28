@@ -1,27 +1,37 @@
 <div class="container mx-auto mt-5">
 	<h2 class="text-xl mb-3 text-primary">Add Post</h2>
-	<form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="mx-4">
+	<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)" class="mx-4">
 		<div class="mb-4">
 			<label for="title" class="block text-text-primary text-sm font-bold mb-2">Title:</label>
-			<input type="text" id="title" formControlName="title"
-				   class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
-			@if (postForm.get('title')?.touched && postForm.get('title')?.hasError('required')) {
-				<div class="text-error">Title is required</div>
+			<input type="text" id="title" [(ngModel)]="postForm.title" #name="ngModel" name="title" required minlength="3"
+				   class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary"/>
+			@if (name.invalid && (name.dirty || name.touched)) {
+				@if (name.errors?.['required']) {
+					<div class="text-error">Title is required</div>
+				}
+				@if (name.errors?.['minlength']) {
+					<div class="text-error">Title must be at least 3 characters</div>
+				}
 			}
 		</div>
 
 		<div class="mb-4">
 			<label for="content" class="block text-text-primary text-sm font-bold mb-2">Content:</label>
-			<textarea id="content" formControlName="content"
+			<textarea id="content" [(ngModel)]="postForm.content" name="content" #content="ngModel" required minlength="10"
 					  class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
-			@if (postForm.get('content')?.touched && postForm.get('content')?.hasError('required')) {
-				<div class="text-error">Content is required</div>
+			@if (content.invalid && (content.dirty || content.touched)) {
+				@if (content.errors?.['required']) {
+					<div class="text-error">Content is required</div>
+				}
+				@if (content.errors?.['minlength']) {
+					<div class="text-error">Content must be at least 10 characters</div>
+				}
 			}
 		</div>
 
 		<div class="mb-4">
 			<label for="category" class="block text-text-primary text-sm font-bold mb-2">Category:</label>
-			<select formControlName="category" id="category"
+			<select [(ngModel)]="postForm.category" name="category" id="category" required #category="ngModel"
 					class="shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:ring-2 focus:ring-primary">
 				<option value=""></option>
 				<option value="FOOD">Food</option>
@@ -30,16 +40,16 @@
 				<option value="EVENTS">Events</option>
 				<option value="ADMINISTRATIVE">Administrative</option>
 			</select>
-			@if (postForm.get('category')?.touched && postForm.get('category')?.hasError('required')) {
+			@if (category.invalid && (category.dirty || category.touched)) {
 				<div class="text-error">Category is required</div>
 			}
 		</div>
 
-		<button type="submit" (click)="setAction('publish')" [ngClass]="{'bg-button-primary hover:bg-secondary': postForm.valid, 'bg-neutral-light': !postForm.valid}"
-				class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="!postForm.valid">Publish Post
+		<button type="submit" (click)="setAction('approval')" [ngClass]="{'bg-button-primary hover:bg-secondary': myForm.valid, 'bg-neutral-light': !myForm.valid}"
+				class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary mr-4" [disabled]="!myForm.valid">Ask Approval
 		</button>
-		<button type="submit" (click)="setAction('draft')" [ngClass]="{'bg-button-primary hover:bg-secondary': postForm.valid, 'bg-neutral-light': !postForm.valid}"
-				class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary" [disabled]="!postForm.valid">Save as Draft
+		<button type="submit" (click)="setAction('draft')" [ngClass]="{'bg-button-primary hover:bg-secondary': myForm.valid, 'bg-neutral-light': !myForm.valid}"
+				class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-primary" [disabled]="!myForm.valid">Save as Draft
 		</button>
 	</form>
 </div>

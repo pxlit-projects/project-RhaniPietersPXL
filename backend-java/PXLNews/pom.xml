@@ -29,6 +29,7 @@
         <module>discovery-service</module>
         <module>gateway-service</module>
         <module>messaging-service</module>
+        <module>notification-service</module>
     </modules>
     <scm>
         <connection/>

@@ -17,6 +17,12 @@ public class QueueConfiguration {
     public Queue setReviewQueue() {
         return new Queue("setReview", false);
     }
+
+    @Bean
+    public Queue sendEmailQueue() {
+        return new Queue("sendEmail", false);
+    }
+
     @Bean
     public MessageConverter jackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();

@@ -33,6 +33,17 @@ services:
     volumes:
       - db_data_commentservice:/var/lib/mysql
 
+  notificationservice-db:
+    image: mysql:8.0
+    container_name: notificationservice-db
+    ports:
+      - "3310:3306"
+    environment:
+      MYSQL_DATABASE: 'notificationservice_db'
+      MYSQL_ROOT_PASSWORD: 'toor'
+    volumes:
+      - db_data_notificationservice:/var/lib/mysql
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
@@ -44,5 +55,6 @@ volumes:
   db_data_postservice:
   db_data_reviewservice:
   db_data_commentservice:
+  db_data_notificationservice:
   db_data_discoveryservice:
 

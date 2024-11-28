@@ -42,7 +42,7 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void addNewPost(PostCreateRequest newPost) {
+    public PostResponse addNewPost(PostCreateRequest newPost) {
         log.info("Adding new post: {}", newPost.getTitle());
         Post post = Post.builder()
                 .title(newPost.getTitle())
@@ -58,6 +58,7 @@ public class PostService implements IPostService {
         if (post.getState() == State.PENDING_APPROVAL) {
             getApproval(post.getId());
         }
+        return mapToPostResponse(post);
     }
 
     @Override
