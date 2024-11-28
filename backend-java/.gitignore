@@ -1,2 +1,41 @@
 # Complete this file for Java specific projects
 # tip: http://gitignore.io
+
+# Maven build directories
+/target/
+
+# Maven wrapper
+/mvnw
+/mvnw.cmd
+
+# IntelliJ IDEA
+.idea/
+/*.iml
+
+# Eclipse
+/.project
+/.classpath
+/.settings/
+
+# NetBeans
+/nbproject/
+
+# Logs
+/logs/
+/*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Java-specific
+*.class
+*.jar
+*.war
+*.ear
+
+# Generated files
+/generated/
