@@ -14,7 +14,7 @@ In dit project fungeert de gateway-service als tussenpersoon die inkomende verzo
 Dit wordt geïmplementeerd in de **AuthService** in het bestand `approval-post-list.component.ts`. De **AuthService** wordt geïnjecteerd in de component en gebruikt om de gebruikersnaam van de ingelogde gebruiker op te halen met de methode `getUsername()`. Deze gebruikersnaam wordt vervolgens gebruikt om de goedgekeurde berichten op te halen via de **ReviewService**.
 
 ## Post Service (Open-Feign)
-De **Post Service** in dit project is verantwoordelijk voor het beheer van de berichten. Het verwerkt bewerkingen zoals het maken, ophalen, bijwerken en verwijderen van berichten. Het kan ook communiceren met andere diensten, zoals de comment- of review-service, om uitgebreide functionaliteit te bieden. Dit gebeurt ook via **RabbitMQ** om goedkeuring van een post aan te vragen bij de **Review Service**.
+De **Post Service** is verantwoordelijk voor het beheer van de berichten. Het verwerkt bewerkingen zoals het maken, ophalen, bijwerken en verwijderen van berichten. Het kan ook communiceren met andere diensten, zoals de comment- of review-service, om uitgebreide functionaliteit te bieden. Dit gebeurt ook via **RabbitMQ** om goedkeuring van een post aan te vragen bij de **Review Service**.
 
 Voorbeeldfuncties van de postdienst:
 - **Bericht maken**: Hiermee kunnen gebruikers nieuwe berichten maken.
