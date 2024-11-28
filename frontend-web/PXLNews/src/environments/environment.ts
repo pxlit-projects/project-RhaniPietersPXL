@@ -1,4 +1,5 @@
 export const environment = {
-    apiUrl: 'https://prod.pxl.be/api',
-
+    apiUrlPost: 'https://prod.pxl.be/api/post/post',
+    apiUrlReview: 'https://prod.pxl.be/api/review/review',
+    apiUrlComment: 'https://prod.pxl.be/api/comment/comment',
 };
