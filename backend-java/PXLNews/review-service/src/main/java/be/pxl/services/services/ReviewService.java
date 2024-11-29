@@ -1,13 +1,9 @@
 package be.pxl.services.services;
 
-import be.pxl.services.Domain.NotificationRequest;
-import be.pxl.services.Domain.ReviewApprovalMessage;
-import be.pxl.services.Domain.ReviewRequestMessage;
 import be.pxl.services.client.PostClient;
 import be.pxl.services.domain.Review;
 import be.pxl.services.domain.State;
-import be.pxl.services.domain.dto.PostResponse;
-import be.pxl.services.domain.dto.ReviewResponse;
+import be.pxl.services.domain.dto.*;
 import be.pxl.services.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

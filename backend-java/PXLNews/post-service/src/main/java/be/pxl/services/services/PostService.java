@@ -1,13 +1,9 @@
 package be.pxl.services.services;
 
-import be.pxl.services.Domain.ReviewApprovalMessage;
-import be.pxl.services.Domain.ReviewRequestMessage;
 import be.pxl.services.client.CommentClient;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.State;
-import be.pxl.services.domain.dto.PostCreateRequest;
-import be.pxl.services.domain.dto.PostResponse;
-import be.pxl.services.domain.dto.PostUpdateRequest;
+import be.pxl.services.domain.dto.*;
 import be.pxl.services.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -117,6 +113,7 @@ public class PostService implements IPostService {
         return mapToPostResponse(post);
     }
 
+    @Override
     @RabbitListener(queues = "setReview")
     public void setReviewStatus(ReviewApprovalMessage response) {
         log.info("Changing state of post with id {} after review to ", response.getPostId());

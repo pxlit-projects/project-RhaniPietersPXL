@@ -1,4 +1,4 @@
-package be.pxl.services.Domain;
+package be.pxl.services.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificationRequest {
-    String to;
-    String subject;
-    String body;
+public class ReviewApprovalMessage {
+    private Long postId;
+    private String state;
+    private String rejectedMessage;
 }

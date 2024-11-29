@@ -3,6 +3,7 @@ package be.pxl.services.services;
 import be.pxl.services.domain.dto.PostCreateRequest;
 import be.pxl.services.domain.dto.PostResponse;
 import be.pxl.services.domain.dto.PostUpdateRequest;
+import be.pxl.services.domain.dto.ReviewApprovalMessage;
 
 import java.util.List;
 
@@ -23,4 +24,5 @@ public interface IPostService {
 
     void publishPost(Long id);
 
+    void setReviewStatus(ReviewApprovalMessage response);
 }

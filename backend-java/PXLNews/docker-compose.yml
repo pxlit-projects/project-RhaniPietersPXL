@@ -1,4 +1,94 @@
 services:
+  config-service:
+    build:
+      context: ./config-service
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=native"
+
+  discovery-service:
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8061:8061"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+      - notificationservice-db
+
+  messaging-service:
+    build:
+      context: ./messaging-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+
+  comment-service:
+    build:
+      context: ./comment-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+      - commentservice-db
+
+  post-service:
+    build:
+      context: ./post-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+      - postservice-db
+
+  review-service:
+    build:
+      context: ./review-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8088
+    depends_on:
+      - config-service
+      - reviewservice-db
+
   postservice-db:
     image: mysql:8.0
     container_name: postservice-db
@@ -56,5 +146,4 @@ volumes:
   db_data_reviewservice:
   db_data_commentservice:
   db_data_notificationservice:
-  db_data_discoveryservice:
 
