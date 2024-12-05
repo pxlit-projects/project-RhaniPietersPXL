@@ -1,7 +1,12 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17
+
 WORKDIR /app
+
 COPY target/gateway-service-0.0.1-SNAPSHOT.jar app.jar
+COPY ./wait.sh ./wait.sh
+
+RUN chmod +x ./wait.sh
 
 EXPOSE 8085
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT [ "/bin/bash", "-c", "./wait.sh localhost:8061/actuator/health -- java -jar app.jar" ]
