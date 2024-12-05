@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY target/notification-service-0.0.1-SNAPSHOT.jar app.jar
 COPY ./wait.sh ./wait.sh
-COPY .env .env
+COPY ../.env .env
 
 RUN chmod +x ./wait.sh
 
