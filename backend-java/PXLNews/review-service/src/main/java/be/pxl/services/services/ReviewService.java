@@ -8,7 +8,6 @@ import be.pxl.services.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +19,9 @@ import java.util.List;
 public class ReviewService implements IReviewService {
     private final ReviewRepository reviewRepository;
     private final PostClient postClient;
-    private static final Logger log = LoggerFactory.getLogger(ReviewService.class);
+    private final RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private static final Logger log = LoggerFactory.getLogger(ReviewService.class);
 
     @RabbitListener(queues = "getApproval")
     public void setPostForApproval(ReviewRequestMessage request) {

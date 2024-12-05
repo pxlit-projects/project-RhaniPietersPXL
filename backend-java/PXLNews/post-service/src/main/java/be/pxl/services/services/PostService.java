@@ -20,11 +20,10 @@ import java.util.List;
 public class PostService implements IPostService {
     private final PostRepository postRepository;
     private final CommentClient commentClient;
+    private final RabbitTemplate rabbitTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(PostService.class);
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
 
     private PostResponse mapToPostResponse(Post post) {
         return PostResponse.builder()
