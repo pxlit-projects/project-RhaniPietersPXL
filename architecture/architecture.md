@@ -67,3 +67,6 @@ Functies van de Messaging Service:
 - **Berichten Ontvangen**: Ontvangt berichten van andere microservices via RabbitMQ.
 - **Asynchrone Communicatie**: Ondersteunt asynchrone communicatie tussen microservices, wat zorgt voor een losgekoppelde en schaalbare architectuur.
 - **Betrouwbare Berichtenaflevering**: Zorgt voor betrouwbare aflevering van berichten door gebruik te maken van RabbitMQ's bevestigingsmechanismen.
+
+## Notification Service
+De **notificatieservice** is verantwoordelijk voor het verwerken van notificaties. De NotificationService-klasse heeft een methode **sendEmailNotification** die een e-mailnotificatie verzendt met behulp van het JavaMailSender-component. Dit is een basisimplementatie en kan worden uitgebreid om andere typen notificaties en complexere logica te ondersteunen. De post-service verzendt een notificatieverzoek naar de notificatieservice wanneer een nieuwe post wordt afgewezen of goedgekeurd. De notificatieservice verwerkt vervolgens het verzoek en verzendt een e-mailnotificatie.
