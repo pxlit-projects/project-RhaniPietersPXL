@@ -1,0 +1,16 @@
+2024-12-12T14:42:09.859+0100 INFO               [main]                         be.pxl.services.controller.CommentControllerTest - Starting CommentControllerTest using Java 17.0.8 with PID 15204 (started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\comment-service)
+2024-12-12T14:42:09.861+0100 DEBUG              [main]                         be.pxl.services.controller.CommentControllerTest - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:42:09.862+0100 INFO               [main]                         be.pxl.services.controller.CommentControllerTest - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:42:12.067+0100 INFO               [main]                         be.pxl.services.controller.CommentControllerTest - Started CommentControllerTest in 3.616 seconds (process running for 4.616)
+2024-12-12T14:42:12.224+0100 INFO               [main]                         be.pxl.services.controller.CommentController - Creating comment for post with id: 1
+2024-12-12T14:42:12.279+0100 INFO               [main]                         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 1
+2024-12-12T14:42:12.289+0100 INFO               [main]                         be.pxl.services.controller.CommentController - Fetching all comments
+2024-12-12T14:42:12.300+0100 INFO               [main]                         be.pxl.services.controller.CommentController - Deleting comment with id: 1
+2024-12-12T14:42:12.322+0100 INFO               [main]                         be.pxl.services.controller.CommentController - Updating comment with id: 1
+2024-12-12T14:42:12.758+0100 INFO               [main]                         be.pxl.services.repository.CommentRepositoryTest - Starting CommentRepositoryTest using Java 17.0.8 with PID 15204 (started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\comment-service)
+2024-12-12T14:42:12.758+0100 DEBUG              [main]                         be.pxl.services.repository.CommentRepositoryTest - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:42:12.759+0100 INFO               [main]                         be.pxl.services.repository.CommentRepositoryTest - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:42:15.032+0100 INFO               [main]                         be.pxl.services.repository.CommentRepositoryTest - Started CommentRepositoryTest in 2.649 seconds (process running for 7.58)
+2024-12-12T14:42:15.524+0100 INFO               [main]                         be.pxl.services.services.CommentService - Creating comment for post with auhor: JohnDoe
+2024-12-12T14:42:15.541+0100 INFO               [main]                         be.pxl.services.services.CommentService - Fetching all comments
+2024-12-12T14:42:15.564+0100 INFO               [main]                         be.pxl.services.services.CommentService - Fetching all comments

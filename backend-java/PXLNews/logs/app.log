@@ -331,3 +331,70 @@
 2024-12-05T16:20:58.466+0100 INFO               [http-nio-8083-exec-6]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 54
 2024-12-05T16:20:59.526+0100 INFO               [http-nio-8081-exec-5]         be.pxl.services.controller.PostController - Fetching drafts by author lander
 2024-12-05T16:20:59.526+0100 INFO               [http-nio-8081-exec-5]         be.pxl.services.services.PostService - Fetching drafts by author lander
+2024-12-12T14:43:51.093+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - Starting CommentServiceApplication using Java 21.0.2 with PID 16268 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\comment-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:43:51.094+0100 DEBUG              [main]                         be.pxl.services.CommentServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:43:51.095+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:43:55.202+0100 INFO               [main]                         be.pxl.services.NotificationServiceApplication - Starting NotificationServiceApplication using Java 21.0.2 with PID 1752 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\notification-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:43:55.203+0100 DEBUG              [main]                         be.pxl.services.NotificationServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:43:55.204+0100 INFO               [main]                         be.pxl.services.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:44:00.329+0100 INFO               [main]                         be.pxl.services.PostServiceApplication - Starting PostServiceApplication using Java 21.0.2 with PID 2904 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\post-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:44:00.330+0100 DEBUG              [main]                         be.pxl.services.PostServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:44:00.330+0100 INFO               [main]                         be.pxl.services.PostServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:44:04.013+0100 INFO               [main]                         be.pxl.services.NotificationServiceApplication - Started NotificationServiceApplication in 10.973 seconds (process running for 11.889)
+2024-12-12T14:44:26.776+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - Starting CommentServiceApplication using Java 21.0.2 with PID 22096 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\comment-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:44:26.776+0100 DEBUG              [main]                         be.pxl.services.CommentServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:44:26.777+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:45:22.415+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - Starting CommentServiceApplication using Java 21.0.2 with PID 16360 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\comment-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:45:22.415+0100 DEBUG              [main]                         be.pxl.services.CommentServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:45:22.416+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:45:28.918+0100 INFO               [main]                         be.pxl.services.CommentServiceApplication - Started CommentServiceApplication in 8.513 seconds (process running for 9.193)
+2024-12-12T14:45:34.719+0100 INFO               [main]                         be.pxl.services.PostServiceApplication - Starting PostServiceApplication using Java 21.0.2 with PID 17144 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\post-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:45:34.720+0100 DEBUG              [main]                         be.pxl.services.PostServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:45:34.721+0100 INFO               [main]                         be.pxl.services.PostServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:45:39.501+0100 INFO               [main]                         be.pxl.services.ReviewServiceApplication - Starting ReviewServiceApplication using Java 21.0.2 with PID 19668 (C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews\review-service\target\classes started by Rhani in C:\PXL\Derde Jaar\Java Fullstack\project-RhaniPietersPXL\backend-java\PXLNews)
+2024-12-12T14:45:39.502+0100 DEBUG              [main]                         be.pxl.services.ReviewServiceApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2024-12-12T14:45:39.502+0100 INFO               [main]                         be.pxl.services.ReviewServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-12T14:45:43.314+0100 INFO               [main]                         be.pxl.services.PostServiceApplication - Started PostServiceApplication in 10.662 seconds (process running for 11.237)
+2024-12-12T14:45:47.848+0100 INFO               [main]                         be.pxl.services.ReviewServiceApplication - Started ReviewServiceApplication in 10.472 seconds (process running for 11.187)
+2024-12-12T14:46:34.287+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.controller.PostController - Adding new post: Etentje
+2024-12-12T14:46:34.287+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.services.PostService - Adding new post: Etentje
+2024-12-12T14:46:34.383+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.services.PostService - Post saved successfully.
+2024-12-12T14:46:34.439+0100 INFO               [http-nio-8081-exec-2]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-12-12T14:46:34.439+0100 INFO               [http-nio-8081-exec-2]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-12-12T14:46:37.427+0100 INFO               [http-nio-8081-exec-3]         be.pxl.services.controller.PostController - Fetching drafts by author null
+2024-12-12T14:46:37.427+0100 INFO               [http-nio-8081-exec-3]         be.pxl.services.services.PostService - Fetching drafts by author null
+2024-12-12T14:46:41.277+0100 INFO               [http-nio-8081-exec-6]         be.pxl.services.controller.PostController - Fetching all posts
+2024-12-12T14:46:42.624+0100 INFO               [http-nio-8081-exec-7]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-12-12T14:46:42.624+0100 INFO               [http-nio-8081-exec-7]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-12-12T14:47:02.300+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.controller.PostController - Adding new post: Nieuwe docent
+2024-12-12T14:47:02.301+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.services.PostService - Adding new post: Nieuwe docent
+2024-12-12T14:47:02.324+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.services.PostService - Post saved successfully.
+2024-12-12T14:47:02.324+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.services.PostService - Sending template for approval 2 ...
+2024-12-12T14:47:02.377+0100 INFO               [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] be.pxl.services.services.ReviewService - Adding post with id 2 for approval
+2024-12-12T14:47:02.398+0100 INFO               [http-nio-8081-exec-5]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-12-12T14:47:02.398+0100 INFO               [http-nio-8081-exec-5]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-12-12T14:47:06.923+0100 INFO               [http-nio-8082-exec-1]         be.pxl.services.services.ReviewService - Fetching posts to review not from author rhani
+2024-12-12T14:47:07.013+0100 INFO               [http-nio-8082-exec-1]         be.pxl.services.services.ReviewService - Found 0 posts to review
+2024-12-12T14:47:10.924+0100 INFO               [http-nio-8081-exec-8]         be.pxl.services.controller.PostController - Fetching all posts
+2024-12-12T14:47:11.707+0100 INFO               [http-nio-8082-exec-2]         be.pxl.services.services.ReviewService - Fetching posts to review not from author wiener
+2024-12-12T14:47:11.715+0100 INFO               [http-nio-8082-exec-2]         be.pxl.services.services.ReviewService - Found 1 posts to review
+2024-12-12T14:47:11.801+0100 INFO               [http-nio-8081-exec-10]        be.pxl.services.controller.PostController - Fetching posts by id 2
+2024-12-12T14:47:13.982+0100 INFO               [http-nio-8082-exec-3]         be.pxl.services.services.ReviewService - Approving post
+2024-12-12T14:47:13.996+0100 INFO               [http-nio-8082-exec-3]         be.pxl.services.services.ReviewService - sending email to author
+2024-12-12T14:47:14.009+0100 INFO               [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] be.pxl.services.services.PostService - Changing state of post with id 2 after review to 
+2024-12-12T14:47:14.018+0100 INFO               [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-17] be.pxl.services.services.NotificationService - sending email...
+2024-12-12T14:47:14.021+0100 INFO               [http-nio-8082-exec-3]         be.pxl.services.services.ReviewService - Review with postId 2 has been approved and removed from the database
+2024-12-12T14:47:14.052+0100 INFO               [http-nio-8082-exec-4]         be.pxl.services.services.ReviewService - Fetching posts to review not from author wiener
+2024-12-12T14:47:14.056+0100 INFO               [http-nio-8082-exec-4]         be.pxl.services.services.ReviewService - Found 0 posts to review
+2024-12-12T14:47:15.365+0100 INFO               [http-nio-8081-exec-9]         be.pxl.services.controller.PostController - Fetching all posts
+2024-12-12T14:47:30.385+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.controller.PostController - Adding new post: Deur sluiten
+2024-12-12T14:47:30.386+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.services.PostService - Adding new post: Deur sluiten
+2024-12-12T14:47:30.398+0100 INFO               [http-nio-8081-exec-1]         be.pxl.services.services.PostService - Post saved successfully.
+2024-12-12T14:47:30.423+0100 INFO               [http-nio-8081-exec-2]         be.pxl.services.controller.PostController - Fetching drafts by author wiener
+2024-12-12T14:47:30.423+0100 INFO               [http-nio-8081-exec-2]         be.pxl.services.services.PostService - Fetching drafts by author wiener
+2024-12-12T14:47:34.043+0100 INFO               [http-nio-8081-exec-3]         be.pxl.services.controller.PostController - Fetching all posts
+2024-12-12T14:47:34.843+0100 INFO               [http-nio-8081-exec-6]         be.pxl.services.controller.PostController - Fetching drafts by author rhani
+2024-12-12T14:47:34.843+0100 INFO               [http-nio-8081-exec-6]         be.pxl.services.services.PostService - Fetching drafts by author rhani
+2024-12-12T14:47:36.871+0100 INFO               [http-nio-8081-exec-7]         be.pxl.services.controller.PostController - Publishing post with id 2
+2024-12-12T14:47:36.916+0100 INFO               [http-nio-8081-exec-4]         be.pxl.services.controller.PostController - Fetching all posts
+2024-12-12T14:47:37.062+0100 INFO               [http-nio-8083-exec-1]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 2
