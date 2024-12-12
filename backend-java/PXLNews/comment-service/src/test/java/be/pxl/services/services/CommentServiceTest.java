@@ -149,4 +149,63 @@ public class CommentServiceTest {
         // Assert
         assertEquals(0, count);
     }
+
+    @Test
+    public void updateCommentThrowsExceptionWhenCommentNotFound() {
+        // Arrange
+        CommentUpdate commentUpdate = new CommentUpdate();
+        commentUpdate.setTitle("New Title");
+        commentUpdate.setContent("New Content");
+
+        when(commentRepository.findById(1L)).thenReturn(Optional.empty()); // No comment found
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            commentService.updateComment(1L, commentUpdate);
+        });
+    }
+
+    @Test
+    public void createCommentThrowsExceptionWhenRequestIsNull() {
+        // Act & Assert
+        assertThrows(NullPointerException.class, () -> {
+            commentService.createComment(1L, null); // Pass null request
+        });
+    }
+    @Test
+    public void getAllCommentsReturnsEmptyListWhenNoComments() {
+        // Arrange
+        when(commentRepository.findByPostId(1L)).thenReturn(List.of()); // No comments
+
+        // Act
+        List<CommentResponse> comments = commentService.getAllComments(1L);
+
+        // Assert
+        assertTrue(comments.isEmpty());
+    }
+
+    @Test
+    public void deleteCommentThrowsExceptionWhenCommentNotFound() {
+        // Arrange
+        Long commentId = 999L; // Assume this ID doesn't exist
+        doThrow(new IllegalArgumentException("Comment not found")).when(commentRepository).deleteById(commentId);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            commentService.deleteComment(commentId);
+        });
+    }
+    @Test
+    public void getCommentCountReturnsZeroWhenRepositoryReturnsNull() {
+        // Arrange
+        when(commentRepository.findByPostId(1L)).thenReturn(null); // Simulate null return
+
+        // Act
+        Integer count = commentService.getCommentCount(1L);
+
+        // Assert
+        assertEquals(0, count);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package be.pxl.services.controller;
 
+import be.pxl.services.CommentServiceApplication;
 import be.pxl.services.domain.dto.CommentRequest;
 import be.pxl.services.domain.dto.CommentResponse;
 import be.pxl.services.domain.dto.CommentUpdate;
@@ -11,18 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CommentController.class)
+@ContextConfiguration(classes = CommentServiceApplication.class)
 public class CommentControllerTest {
 
     @Autowired

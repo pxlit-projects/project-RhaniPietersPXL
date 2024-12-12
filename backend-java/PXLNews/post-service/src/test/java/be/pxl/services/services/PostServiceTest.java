@@ -16,7 +16,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 class PostServiceTest {
@@ -199,4 +201,111 @@ class PostServiceTest {
         assertEquals(State.PUBLISHED, post.getState());
         verify(postRepository, times(1)).save(post);
     }
+
+    @Test
+    void testAddNewPost() {
+        // Arrange
+        PostCreateRequest newPostRequest = new PostCreateRequest(
+                "New Post",
+                "Content",
+                "Author",
+                LocalDateTime.now(),  // Valid creationDate
+                Category.FOOD,        // Category
+                State.DRAFT           // State
+        );
+        Post savedPost = new Post();
+        savedPost.setId(1L);
+        savedPost.setTitle("New Post");
+        savedPost.setContent("Content");
+        savedPost.setAuthor("Author");
+        savedPost.setCategory(Category.FOOD);
+        savedPost.setState(State.DRAFT);
+
+        when(postRepository.save(any(Post.class))).thenReturn(savedPost);
+
+        // Act
+        PostResponse createdPostResponse = postService.addNewPost(newPostRequest);
+
+        // Assert
+        assertEquals("New Post", createdPostResponse.getTitle());
+        assertEquals("Content", createdPostResponse.getContent());
+        verify(postRepository, times(1)).save(any(Post.class));
+    }
+    @Test
+    void testEditPostThrowsExceptionWhenPostNotFound() {
+        // Arrange
+        Long postId = 1L;
+        PostUpdateRequest updateRequest = new PostUpdateRequest("Updated Title", "Updated Content", Category.STUDENTS);
+
+        when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () -> {
+            postService.editPost(updateRequest, postId);
+        });
+    }
+    @Test
+    void testGetPostByIdThrowsExceptionWhenPostNotFound() {
+        // Arrange
+        Long postId = 1L;
+
+        when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () -> {
+            postService.getPostById(postId);
+        });
+    }
+
+    @Test
+    void testGetDraftsFromAuthorReturnsEmptyListWhenNoDrafts() {
+        // Arrange
+        String author = "Test Author";
+
+        when(postRepository.findByAuthorAndStateNotIn(author, List.of(State.PUBLISHED))).thenReturn(List.of());
+
+        // Act
+        List<PostResponse> drafts = postService.getDraftsFromAuthor(author);
+
+        // Assert
+        assertTrue(drafts.isEmpty());
+    }
+    @Test
+    void testSetReviewStatusThrowsExceptionWhenPostNotFound() {
+        // Arrange
+        ReviewApprovalMessage approvalMessage = new ReviewApprovalMessage(1L, "APPROVED", "");
+
+        when(postRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () -> {
+            postService.setReviewStatus(approvalMessage);
+        });
+    }
+    @Test
+    void testPublishPostThrowsExceptionWhenPostNotFound() {
+        // Arrange
+        Long postId = 1L;
+
+        when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () -> {
+            postService.publishPost(postId);
+        });
+    }
+
+    @Test
+    void testGetApprovalThrowsExceptionWhenPostNotFound() {
+        // Arrange
+        Long postId = 1L;
+
+        when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () -> {
+            postService.getApproval(postId);
+        });
+    }
+
 }

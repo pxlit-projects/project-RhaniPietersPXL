@@ -1,5 +1,6 @@
 package be.pxl.services.repository;
 
+import be.pxl.services.CommentServiceApplication;
 import be.pxl.services.domain.Comment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -7,12 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@ContextConfiguration(classes = CommentServiceApplication.class)
 public class CommentRepositoryTest {
 
     @PersistenceContext

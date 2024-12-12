@@ -1,5 +1,6 @@
 package be.pxl.services.repository;
 
+import be.pxl.services.PostServiceApplication;
 import be.pxl.services.domain.Category;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.State;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@ContextConfiguration(classes = PostServiceApplication.class)
 public class PostRepositoryTest {
 
     @Autowired
