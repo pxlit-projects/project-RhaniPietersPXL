@@ -35,5 +35,20 @@ Each folder contains its own specific `.gitignore` file.
 
 1. **Using Docker**:  
    The frontend also has a Dockerfile. First, build the image with:  
-   ```bash
-   docker build -t pxlnews .
+   ```bash    docker build -t pxlnews .
+
+Then, run it using:
+```bash docker run -p 80:80 pxlnews
+
+However, this may also result in a CORS issue.
+
+Without Docker (Local Setup):
+To avoid the CORS issue, you can manually run the frontend using the following command:
+
+
+Notes on CORS Issues
+Running the application locally should not trigger any CORS issues. After 20 hours of troubleshooting, I was unable to resolve the CORS problem when using Docker. If you run into CORS issues with Docker, it is recommended to run the frontend and backend locally (without Docker) to avoid such problems.
+
+
+
+
