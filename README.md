@@ -35,10 +35,10 @@ Each folder contains its own specific `.gitignore` file.
 
 1. **Using Docker**:  
    The frontend also has a Dockerfile. First, build the image with:  
-   ```bash    docker build -t pxlnews .
+   ```bash    docker build -t pxlnews .  ```
 
 Then, run it using:
-```bash docker run -p 80:80 pxlnews
+```bash docker run -p 80:80 pxlnews  ```
 
 However, this may also result in a CORS issue.
 
