@@ -17,3 +17,23 @@ Each folder contains its own specific `.gitignore` file.
 ## How to setup and run this application
 
 :heavy_check_mark:_(COMMENT) Add setup instructions and provide some direction to run the whole  application: frontend to backend._
+
+### Backend Setup
+
+1. **Using Docker**:  
+   You can run the backend using the `docker-compose.yml` file. This will start the application, but there may be a CORS issue.
+
+2. **Without Docker (Local Setup)**:  
+   To run the backend locally, first start the databases by running the `docker-compose.yml` from the `no-container` branch.  
+   Then, manually start the services in the following order:
+   - `config-service`
+   - `discovery-service`
+   - `gateway-service`
+   - Then, start the other services as needed.
+
+### Frontend Setup
+
+1. **Using Docker**:  
+   The frontend also has a Dockerfile. First, build the image with:  
+   ```bash
+   docker build -t pxlnews .
