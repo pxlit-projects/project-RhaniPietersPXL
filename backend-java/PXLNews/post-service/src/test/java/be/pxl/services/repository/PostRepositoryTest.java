@@ -25,45 +25,16 @@ public class PostRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        Post post1 = Post.builder()
-                .title("Post 1")
-                .content("Content of post 1")
-                .author("Author 1")
-                .creationDate(LocalDateTime.now())
-                .category(Category.FOOD)
-                .state(State.DRAFT)
-                .build();
+        Post post1 = Post.builder().title("Post 1").content("Content of post 1").author("Author 1").creationDate(LocalDateTime.now()).category(Category.FOOD).state(State.DRAFT).build();
         postRepository.save(post1);
 
-        Post post2 = Post.builder()
-                .title("Post 2")
-                .content("Content of post 2")
-                .author("Author 1")
-                .creationDate(LocalDateTime.now())
-                .category(Category.TEACHERS)
-                .state(State.PENDING_APPROVAL)
-                .build();
+        Post post2 = Post.builder().title("Post 2").content("Content of post 2").creationDate(LocalDateTime.now()).category(Category.TEACHERS).state(State.PENDING_APPROVAL).build();
         postRepository.save(post2);
 
-        Post post3 = Post.builder()
-                .title("Post 3")
-                .content("Content of post 3")
-                .author("Author 2")
-                .creationDate(LocalDateTime.now())
-                .category(Category.STUDENTS)
-                .state(State.APPROVED)
-                .build();
+        Post post3 = Post.builder().title("Post 3").content("Content of post 3").author("Author 2").creationDate(LocalDateTime.now()).category(Category.STUDENTS).state(State.APPROVED).build();
         postRepository.save(post3);
 
-        Post post4 = Post.builder()
-                .title("Post 4")
-                .content("Content of post 4")
-                .author("Author 2")
-                .creationDate(LocalDateTime.now())
-                .category(Category.EVENTS)
-                .state(State.REJECTED)
-                .rejectedMessage("Rejected due to issues")
-                .build();
+        Post post4 = Post.builder().title("Post 4").content("Content of post 4").author("Author 2").creationDate(LocalDateTime.now()).category(Category.EVENTS).state(State.REJECTED).rejectedMessage("Rejected due to issues").build();
         postRepository.save(post4);
     }
 
@@ -85,22 +56,14 @@ public class PostRepositoryTest {
         List<State> excludedStates = Arrays.asList(State.PENDING_APPROVAL, State.REJECTED);
         List<Post> posts = postRepository.findByAuthorAndStateNotIn("Author 1", excludedStates);
 
-        assertThat(posts).hasSize(1); // Should only return posts with author "Author 1" and state not in [PENDING_APPROVAL, REJECTED]
+        assertThat(posts).hasSize(1);
         assertThat(posts.get(0).getAuthor()).isEqualTo("Author 1");
         assertThat(posts.get(0).getState()).isNotIn(State.PENDING_APPROVAL, State.REJECTED);
     }
 
     @Test
     public void testSaveAndRetrievePost() {
-        Post newPost = Post.builder()
-                .title("New Post")
-                .content("New Content")
-                .author("New Author")
-                .creationDate(LocalDateTime.now())
-                .category(Category.ADMINISTRATIVE)
-                .state(State.PENDING_APPROVAL)
-                .build();
-
+        Post newPost = Post.builder().title("New Post").content("New Content").author("New Author").creationDate(LocalDateTime.now()).category(Category.ADMINISTRATIVE).state(State.PENDING_APPROVAL).build();
         Post savedPost = postRepository.save(newPost);
         Post retrievedPost = postRepository.findById(savedPost.getId()).orElse(null);
 

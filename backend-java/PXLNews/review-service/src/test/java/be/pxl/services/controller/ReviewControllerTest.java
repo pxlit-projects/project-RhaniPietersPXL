@@ -22,7 +22,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-        import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReviewController.class)
 @ContextConfiguration(classes = ReviewServiceApplication.class)
@@ -37,7 +37,6 @@ public class ReviewControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // Test for findAllByStateAndAuthorNot (GET /review/approval/{author})
     @Test
     public void verifyFindAllByStateAndAuthorNotReturnsOk() throws Exception {
         String author = "Author 1";
@@ -54,7 +53,6 @@ public class ReviewControllerTest {
         verify(reviewService).getPostsToApproveNotFromAuthor(author);
     }
 
-    // Test for reject (POST /review/{id}/reject)
     @Test
     public void verifyRejectReturnsOk() throws Exception {
         Long postId = 1L;
@@ -68,7 +66,6 @@ public class ReviewControllerTest {
         verify(reviewService).rejectPost(postId, rejectionMessage);
     }
 
-    // Test for approve (POST /review/{id}/approve)
     @Test
     public void verifyApproveReturnsOk() throws Exception {
         Long postId = 1L;

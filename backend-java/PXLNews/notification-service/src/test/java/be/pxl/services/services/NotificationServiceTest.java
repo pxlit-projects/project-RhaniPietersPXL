@@ -2,16 +2,18 @@ package be.pxl.services.services;
 
 import be.pxl.services.domain.NotificationRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.openMocks;
 
+@ExtendWith(MockitoExtension.class)
 public class NotificationServiceTest {
 
     @Mock
@@ -19,10 +21,6 @@ public class NotificationServiceTest {
 
     @InjectMocks
     private NotificationService notificationService;
-
-    public NotificationServiceTest() {
-        openMocks(this);
-    }
 
     @Test
     public void sendEmailShouldSendCorrectEmail() {
@@ -69,5 +67,4 @@ public class NotificationServiceTest {
         assertEquals("Log Test", sentMessage.getSubject());
         assertEquals("Check log functionality.", sentMessage.getText());
     }
-
 }

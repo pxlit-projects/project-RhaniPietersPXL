@@ -6,11 +6,11 @@ import be.pxl.services.domain.Category;
 import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.*;
 import be.pxl.services.repository.PostRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import static org.mockito.Mockito.*;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@ExtendWith(MockitoExtension.class)
 class PostServiceTest {
 
     @InjectMocks
@@ -34,11 +35,6 @@ class PostServiceTest {
 
     @Mock
     private RabbitTemplate rabbitTemplate;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testEditPost() {
@@ -205,14 +201,7 @@ class PostServiceTest {
     @Test
     void testAddNewPost() {
         // Arrange
-        PostCreateRequest newPostRequest = new PostCreateRequest(
-                "New Post",
-                "Content",
-                "Author",
-                LocalDateTime.now(),  // Valid creationDate
-                Category.FOOD,        // Category
-                State.DRAFT           // State
-        );
+        PostCreateRequest newPostRequest = new PostCreateRequest("New Post", "Content", "Author", LocalDateTime.now(), Category.FOOD, State.DRAFT);
         Post savedPost = new Post();
         savedPost.setId(1L);
         savedPost.setTitle("New Post");
@@ -231,6 +220,7 @@ class PostServiceTest {
         assertEquals("Content", createdPostResponse.getContent());
         verify(postRepository, times(1)).save(any(Post.class));
     }
+
     @Test
     void testEditPostThrowsExceptionWhenPostNotFound() {
         // Arrange
@@ -244,6 +234,7 @@ class PostServiceTest {
             postService.editPost(updateRequest, postId);
         });
     }
+
     @Test
     void testGetPostByIdThrowsExceptionWhenPostNotFound() {
         // Arrange
@@ -270,6 +261,7 @@ class PostServiceTest {
         // Assert
         assertTrue(drafts.isEmpty());
     }
+
     @Test
     void testSetReviewStatusThrowsExceptionWhenPostNotFound() {
         // Arrange
@@ -282,6 +274,7 @@ class PostServiceTest {
             postService.setReviewStatus(approvalMessage);
         });
     }
+
     @Test
     void testPublishPostThrowsExceptionWhenPostNotFound() {
         // Arrange
@@ -307,5 +300,4 @@ class PostServiceTest {
             postService.getApproval(postId);
         });
     }
-
 }

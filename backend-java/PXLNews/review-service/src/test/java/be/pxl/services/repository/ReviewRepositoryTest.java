@@ -28,7 +28,6 @@ public class ReviewRepositoryTest {
 
     @Test
     public void testFindByPostId() {
-        // Step 1: Create and persist a Post entity (make sure the postId exists in the database)
         Post post = Post.builder()
                 .title("Post Title")
                 .content("Post Content")
@@ -38,17 +37,15 @@ public class ReviewRepositoryTest {
                 .state(State.DRAFT)
                 .build();
         entityManager.persist(post);
-        entityManager.flush(); // Ensure the post is written to the database
+        entityManager.flush();
 
-        // Step 2: Create and persist a Review entity
         Review review = new Review();
         review.setAuthor("Jane");
-        review.setPostId(post.getId()); // Link the review to the postId
+        review.setPostId(post.getId());
         review.setRejectedMessage("Test rejection message");
         entityManager.persist(review);
-        entityManager.flush(); // Ensure the review is written to the database
+        entityManager.flush();
 
-        // Step 3: Run the query and verify the result
         Optional<Review> foundReview = reviewRepository.findByPostId(post.getId());
 
         assertThat(foundReview).isPresent();
