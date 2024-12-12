@@ -33,21 +33,35 @@ Each folder contains its own specific `.gitignore` file.
 
 ### Frontend Setup
 
-1. **Using Docker**:  
-   The frontend also has a Dockerfile. First, build the image with:  
-   ```bash    docker build -t pxlnews .  ```
+#### 1. Using Docker:
+To run the frontend using Docker, follow these steps:
+1. Build the Docker image for the frontend:
+   ```bash
+   docker build -t pxlnews .
+   ```
+2. Run the Docker container:
+   ```bash
+   docker run -p 80:80 pxlnews
+   ```
+   Note: You may encounter CORS issues when running both frontend and backend in Docker.
 
-Then, run it using:
-```bash docker run -p 80:80 pxlnews  ```
+#### 2. Without Docker (Local Setup):
+To avoid CORS issues, you can run the frontend locally by following these steps:
+1. Navigate to the `frontend-web` directory.
+2. Install the necessary dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the Angular development server:
+   ```bash
+   ng serve
+   ```
+   The frontend will be available at `http://localhost:4200` (or another port if specified).
 
-However, this may also result in a CORS issue.
+### Notes on CORS Issues
 
-Without Docker (Local Setup):
-To avoid the CORS issue, you can manually run the frontend using the following command:
+Running the application locally should generally not trigger CORS issues. However, if you encounter CORS problems when using Docker for both the frontend and backend, it's recommended to run them separately, locally (i.e., run the frontend using `ng serve` and the backend using Docker or directly via Java). This approach should avoid any CORS-related problems.
 
-
-Notes on CORS Issues
-Running the application locally should not trigger any CORS issues. After 20 hours of troubleshooting, I was unable to resolve the CORS problem when using Docker. If you run into CORS issues with Docker, it is recommended to run the frontend and backend locally (without Docker) to avoid such problems.
 
 
 
