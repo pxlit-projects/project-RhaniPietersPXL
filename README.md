@@ -56,7 +56,7 @@ To avoid CORS issues, you can run the frontend locally by following these steps:
    ```bash
    ng serve
    ```
-   The frontend will be available at `http://localhost:4200` (or another port if specified).
+   The frontend will be available at `http://localhost:4200`
 
 ### Notes on CORS Issues
 
