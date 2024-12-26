@@ -22,7 +22,7 @@ Each folder contains its own specific `.gitignore` file.
    You can run the backend using the `docker-compose.yml` file on the main branch. This will start the application, but there may be a CORS issue.
 
 2. **Without Docker (Local Setup)**:  
-   To run the backend locally, first start the databases by running the `docker-compose.yml` from the `no-container` branch.  
+   To run the backend locally, first start the databases by running the `docker-compose.yml` from the `no-container` branch and start the rabbit-mq service.  
    Then, manually start the services in the following order:
    - `config-service`
    - `discovery-service`
