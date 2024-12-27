@@ -42,7 +42,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostResponse> add(@RequestBody PostCreateRequest newPost) {
         log.info("Adding new post: {}", newPost.getTitle());
-        return new ResponseEntity<PostResponse>(postService.addNewPost(newPost), HttpStatus.CREATED);
+        return new ResponseEntity<>(postService.addNewPost(newPost), HttpStatus.CREATED);
     }
     @PostMapping("/{id}/approval")
     public ResponseEntity<PostResponse> getApproval(@PathVariable Long id) {
