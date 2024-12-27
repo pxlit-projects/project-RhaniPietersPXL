@@ -33,3 +33,7 @@ build/
 .vscode/
 /review-service/.env
 /notification-service/.env
+/post-service/logs/
+/review-service/logs/
+/comment-service/logs/
+/logs/
