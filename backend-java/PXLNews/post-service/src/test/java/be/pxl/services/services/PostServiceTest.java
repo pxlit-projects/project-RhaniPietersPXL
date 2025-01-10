@@ -14,7 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,9 +58,9 @@ class PostServiceTest {
         PostResponse updatedPost = postService.editPost(updateRequest, postId);
 
         // Assert
-        assertEquals("Updated Title", updatedPost.getTitle());
-        assertEquals("Updated Content", updatedPost.getContent());
-        assertEquals(Category.STUDENTS, updatedPost.getCategory());
+        assertThat(updatedPost.getTitle()).isEqualTo("Updated Title");
+        assertThat(updatedPost.getContent()).isEqualTo("Updated Content");
+        assertThat(updatedPost.getCategory()).isEqualTo(Category.STUDENTS);
         verify(postRepository, times(1)).save(post);
     }
 
@@ -88,9 +89,9 @@ class PostServiceTest {
         List<PostResponse> postResponses = postService.getAllPublishedPosts();
 
         // Assert
-        assertEquals(2, postResponses.size());
-        assertEquals(10, postResponses.get(0).getCommentCount());
-        assertEquals(5, postResponses.get(1).getCommentCount());
+        assertThat(postResponses).hasSize(2);
+        assertThat(postResponses.get(0).getCommentCount()).isEqualTo(10);
+        assertThat(postResponses.get(1).getCommentCount()).isEqualTo(5);
     }
 
     @Test
@@ -108,20 +109,8 @@ class PostServiceTest {
         PostResponse postResponse = postService.getPostById(postId);
 
         // Assert
-        assertNotNull(postResponse);
-        assertEquals("Test Title", postResponse.getTitle());
-    }
-
-    @Test
-    void testDeletePostById() {
-        // Arrange
-        Long postId = 1L;
-
-        // Act
-        postService.deletePostById(postId);
-
-        // Assert
-        verify(postRepository, times(1)).deleteById(postId);
+        assertThat(postResponse).isNotNull();
+        assertThat(postResponse.getTitle()).isEqualTo("Test Title");
     }
 
     @Test
@@ -140,8 +129,8 @@ class PostServiceTest {
         List<PostResponse> drafts = postService.getDraftsFromAuthor(author);
 
         // Assert
-        assertEquals(1, drafts.size());
-        assertEquals("Draft Post", drafts.get(0).getTitle());
+        assertThat(drafts).hasSize(1);
+        assertThat(drafts.get(0).getTitle()).isEqualTo("Draft Post");
     }
 
     @Test
@@ -158,7 +147,7 @@ class PostServiceTest {
         PostResponse postResponse = postService.getApproval(postId);
 
         // Assert
-        assertEquals(State.PENDING_APPROVAL, postResponse.getState());
+        assertThat(postResponse.getState()).isEqualTo(State.PENDING_APPROVAL);
         verify(rabbitTemplate, times(1)).convertAndSend(eq("getApproval"), any(ReviewRequestMessage.class));
     }
 
@@ -177,7 +166,7 @@ class PostServiceTest {
         postService.setReviewStatus(approvalMessage);
 
         // Assert
-        assertEquals(State.APPROVED, post.getState());
+        assertThat(post.getState()).isEqualTo(State.APPROVED);
     }
 
     @Test
@@ -194,7 +183,7 @@ class PostServiceTest {
         postService.publishPost(postId);
 
         // Assert
-        assertEquals(State.PUBLISHED, post.getState());
+        assertThat(post.getState()).isEqualTo(State.PUBLISHED);
         verify(postRepository, times(1)).save(post);
     }
 
@@ -216,8 +205,8 @@ class PostServiceTest {
         PostResponse createdPostResponse = postService.addNewPost(newPostRequest);
 
         // Assert
-        assertEquals("New Post", createdPostResponse.getTitle());
-        assertEquals("Content", createdPostResponse.getContent());
+        assertThat(createdPostResponse.getTitle()).isEqualTo("New Post");
+        assertThat(createdPostResponse.getContent()).isEqualTo("Content");
         verify(postRepository, times(1)).save(any(Post.class));
     }
 
@@ -230,9 +219,7 @@ class PostServiceTest {
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> {
-            postService.editPost(updateRequest, postId);
-        });
+        assertThrows(NoSuchElementException.class, () -> postService.editPost(updateRequest, postId));
     }
 
     @Test
@@ -243,9 +230,7 @@ class PostServiceTest {
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> {
-            postService.getPostById(postId);
-        });
+        assertThrows(NoSuchElementException.class, () -> postService.getPostById(postId));
     }
 
     @Test
@@ -259,7 +244,7 @@ class PostServiceTest {
         List<PostResponse> drafts = postService.getDraftsFromAuthor(author);
 
         // Assert
-        assertTrue(drafts.isEmpty());
+        assertThat(drafts).isEmpty();
     }
 
     @Test
@@ -270,9 +255,7 @@ class PostServiceTest {
         when(postRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> {
-            postService.setReviewStatus(approvalMessage);
-        });
+        assertThrows(NoSuchElementException.class, () -> postService.setReviewStatus(approvalMessage));
     }
 
     @Test
@@ -283,9 +266,7 @@ class PostServiceTest {
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> {
-            postService.publishPost(postId);
-        });
+        assertThrows(NoSuchElementException.class, () -> postService.publishPost(postId));
     }
 
     @Test
@@ -296,8 +277,6 @@ class PostServiceTest {
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> {
-            postService.getApproval(postId);
-        });
+        assertThrows(NoSuchElementException.class, () -> postService.getApproval(postId));
     }
 }

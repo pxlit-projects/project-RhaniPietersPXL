@@ -47,7 +47,9 @@ public class ReviewControllerTest {
 
         Mockito.when(reviewService.getPostsToApproveNotFromAuthor(author)).thenReturn(reviews);
 
-        mockMvc.perform(get("/review/approval/{author}", author))
+        mockMvc.perform(get("/review/approval/{author}", author)
+                        .header("role", "redacteur")
+                )
                 .andExpect(status().isOk());
 
         verify(reviewService).getPostsToApproveNotFromAuthor(author);
@@ -59,6 +61,7 @@ public class ReviewControllerTest {
         String rejectionMessage = "This post has been rejected.";
 
         mockMvc.perform(post("/review/{id}/reject", postId)
+                        .header("role", "redacteur")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(rejectionMessage))
                 .andExpect(status().isOk());
@@ -70,7 +73,8 @@ public class ReviewControllerTest {
     public void verifyApproveReturnsOk() throws Exception {
         Long postId = 1L;
 
-        mockMvc.perform(post("/review/{id}/approve", postId))
+        mockMvc.perform(post("/review/{id}/approve", postId)
+                        .header("role", "redacteur"))
                 .andExpect(status().isOk());
 
         verify(reviewService).approvePost(postId);

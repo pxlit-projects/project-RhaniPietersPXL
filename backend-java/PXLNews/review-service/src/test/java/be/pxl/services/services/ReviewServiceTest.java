@@ -20,7 +20,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,9 +59,9 @@ public class ReviewServiceTest {
         verify(reviewRepository).save(reviewCaptor.capture());
 
         Review savedReview = reviewCaptor.getValue();
-        assertEquals(1L, savedReview.getPostId());
-        assertEquals("JohnDoe", savedReview.getAuthor());
-        assertEquals("", savedReview.getRejectedMessage());
+        assertThat(savedReview.getPostId()).isEqualTo(1L);
+        assertThat(savedReview.getAuthor()).isEqualTo("JohnDoe");
+        assertThat(savedReview.getRejectedMessage()).isEmpty();
     }
 
     @Test
@@ -81,11 +81,11 @@ public class ReviewServiceTest {
         List<ReviewResponse> result = reviewService.getPostsToApproveNotFromAuthor(author);
 
         // Assert
-        assertEquals(1, result.size());
+        assertThat(result).hasSize(1);
         ReviewResponse response = result.get(0);
-        assertEquals(1L, response.getId());
-        assertNull(response.getPost());
-        assertEquals("", response.getRejectedMessage());
+        assertThat(response.getId()).isEqualTo(1L);
+        assertThat(response.getPost()).isNull();
+        assertThat(response.getRejectedMessage()).isEmpty();
     }
 
     @Test
@@ -101,19 +101,19 @@ public class ReviewServiceTest {
         reviewService.approvePost(1L);
 
         // Assert
-        verify(rabbitTemplate, times(1)).convertAndSend(eq("setReview"), reviewApprovalCaptor.capture());
-        verify(rabbitTemplate, times(1)).convertAndSend(eq("sendEmail"), notificationRequestCaptor.capture());
+        verify(rabbitTemplate).convertAndSend(eq("setReview"), reviewApprovalCaptor.capture());
+        verify(rabbitTemplate).convertAndSend(eq("sendEmail"), notificationRequestCaptor.capture());
         verify(reviewRepository).delete(review);
 
         ReviewApprovalMessage approvalMessage = reviewApprovalCaptor.getValue();
-        assertEquals(1L, approvalMessage.getPostId());
-        assertEquals(State.APPROVED.toString(), approvalMessage.getState());
-        assertEquals("", approvalMessage.getRejectedMessage());
+        assertThat(approvalMessage.getPostId()).isEqualTo(1L);
+        assertThat(approvalMessage.getState()).isEqualTo(State.APPROVED.toString());
+        assertThat(approvalMessage.getRejectedMessage()).isEmpty();
 
         NotificationRequest notificationRequest = notificationRequestCaptor.getValue();
-        assertEquals("rhanipieters@hotmail.com", notificationRequest.getTo());
-        assertEquals("Post approved", notificationRequest.getSubject());
-        assertTrue(notificationRequest.getBody().contains("approved successfully"));
+        assertThat(notificationRequest.getTo()).isEqualTo("rhanipieters@hotmail.com");
+        assertThat(notificationRequest.getSubject()).isEqualTo("Post approved");
+        assertThat(notificationRequest.getBody()).contains("approved successfully");
     }
 
     @Test
@@ -130,18 +130,18 @@ public class ReviewServiceTest {
         reviewService.rejectPost(1L, rejectionMessage);
 
         // Assert
-        verify(rabbitTemplate, times(1)).convertAndSend(eq("setReview"), reviewApprovalCaptor.capture());
-        verify(rabbitTemplate, times(1)).convertAndSend(eq("sendEmail"), notificationRequestCaptor.capture());
+        verify(rabbitTemplate).convertAndSend(eq("setReview"), reviewApprovalCaptor.capture());
+        verify(rabbitTemplate).convertAndSend(eq("sendEmail"), notificationRequestCaptor.capture());
         verify(reviewRepository).delete(review);
 
         ReviewApprovalMessage approvalMessage = reviewApprovalCaptor.getValue();
-        assertEquals(1L, approvalMessage.getPostId());
-        assertEquals(State.REJECTED.toString(), approvalMessage.getState());
-        assertEquals(rejectionMessage, approvalMessage.getRejectedMessage());
+        assertThat(approvalMessage.getPostId()).isEqualTo(1L);
+        assertThat(approvalMessage.getState()).isEqualTo(State.REJECTED.toString());
+        assertThat(approvalMessage.getRejectedMessage()).isEqualTo(rejectionMessage);
 
         NotificationRequest notificationRequest = notificationRequestCaptor.getValue();
-        assertEquals("rhanipieters@hotmail.com", notificationRequest.getTo());
-        assertEquals("Post rejected", notificationRequest.getSubject());
-        assertTrue(notificationRequest.getBody().contains("rejected. Reason: " + rejectionMessage));
+        assertThat(notificationRequest.getTo()).isEqualTo("rhanipieters@hotmail.com");
+        assertThat(notificationRequest.getSubject()).isEqualTo("Post rejected");
+        assertThat(notificationRequest.getBody()).contains("rejected. Reason: " + rejectionMessage);
     }
 }

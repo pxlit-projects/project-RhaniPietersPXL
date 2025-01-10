@@ -44,7 +44,8 @@ public class CommentControllerTest {
         );
         Mockito.when(commentService.getAllComments(postId)).thenReturn(comments);
 
-        mockMvc.perform(get("/comment/{id}", postId))
+        mockMvc.perform(get("/comment/{id}", postId)
+                        .header("user", "Author 1"))
                 .andExpect(status().isOk());
 
         verify(commentService).getAllComments(postId);
@@ -60,6 +61,7 @@ public class CommentControllerTest {
 
         String json = objectMapper.writeValueAsString(commentRequest);
         mockMvc.perform(post("/comment/{postId}", postId)
+                        .header("user", "Author 1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated());
@@ -77,6 +79,7 @@ public class CommentControllerTest {
 
         String json = objectMapper.writeValueAsString(commentUpdate);
         mockMvc.perform(put("/comment/{id}", commentId)
+                        .header("user", "Author 1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
@@ -88,7 +91,8 @@ public class CommentControllerTest {
     public void verifyDeleteCommentReturnsNoContent() throws Exception {
         Long commentId = 1L;
 
-        mockMvc.perform(delete("/comment/{id}", commentId))
+        mockMvc.perform(delete("/comment/{id}", commentId)
+                        .header("user", "Author 1"))
                 .andExpect(status().isNoContent());
 
         verify(commentService).deleteComment(commentId);
@@ -101,7 +105,8 @@ public class CommentControllerTest {
 
         Mockito.when(commentService.getCommentCount(postId)).thenReturn(commentCount);
 
-        mockMvc.perform(get("/comment/count/{postId}", postId))
+        mockMvc.perform(get("/comment/count/{postId}", postId)
+                        .header("user", "Author 1"))
                 .andExpect(status().isOk());
 
         verify(commentService).getCommentCount(postId);

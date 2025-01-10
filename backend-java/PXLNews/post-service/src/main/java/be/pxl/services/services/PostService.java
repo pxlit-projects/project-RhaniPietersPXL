@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
@@ -81,13 +80,9 @@ public class PostService implements IPostService {
 
     @Override
     public PostResponse getPostById(Long id) {
+        log.info("Fetching post with id {}", id);
         Post post = postRepository.findById(id).orElseThrow();
         return mapToPostResponse(post);
-    }
-
-    @Override
-    public void deletePostById(Long id) {
-        postRepository.deleteById(id);
     }
 
     @Override

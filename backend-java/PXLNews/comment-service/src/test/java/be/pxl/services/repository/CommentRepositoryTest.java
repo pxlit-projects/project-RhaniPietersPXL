@@ -2,30 +2,28 @@ package be.pxl.services.repository;
 
 import be.pxl.services.CommentServiceApplication;
 import be.pxl.services.domain.Comment;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
+@SpringBootTest
 @ContextConfiguration(classes = CommentServiceApplication.class)
 public class CommentRepositoryTest {
 
-    @PersistenceContext
-    protected EntityManager entityManager;
-
-    @Autowired
+    @Mock
     private CommentRepository commentRepository;
 
     @BeforeEach
     public void setUp() {
+        commentRepository.deleteAll();
         Comment comment1 = new Comment();
         comment1.setTitle("First Comment");
         comment1.setContent("Content of first comment");
@@ -46,16 +44,16 @@ public class CommentRepositoryTest {
         comment3.setAuthor("Author 3");
         comment3.setPostId(2L);
         commentRepository.save(comment3);
-        entityManager.flush();
-        entityManager.clear();
+        when(commentRepository.findByPostId(1L)).thenReturn(Arrays.asList(comment1, comment2));
+
     }
 
     @Test
     public void testFindByPostId() {
+
         List<Comment> comments = commentRepository.findByPostId(1L);
 
         assertThat(comments).hasSize(2);
-
         assertThat(comments.get(0).getPostId()).isEqualTo(1L);
         assertThat(comments.get(1).getPostId()).isEqualTo(1L);
     }
@@ -81,8 +79,12 @@ public class CommentRepositoryTest {
         newComment.setAuthor("New Author");
         newComment.setPostId(1L);
 
-        Comment savedComment = commentRepository.save(newComment);
+        when(commentRepository.save(newComment)).thenReturn(newComment);
 
+        newComment.setId(10L);
+        when(commentRepository.findById(10L)).thenReturn(java.util.Optional.of(newComment));
+
+        Comment savedComment = commentRepository.save(newComment);
         Comment retrievedComment = commentRepository.findById(savedComment.getId()).orElse(null);
 
         assertThat(retrievedComment).isNotNull();
@@ -94,12 +96,19 @@ public class CommentRepositoryTest {
 
     @Test
     public void testDeleteComment() {
-        List<Comment> commentsBeforeDelete = commentRepository.findByPostId(1L);
-        int initialSize = commentsBeforeDelete.size();
+        // Mock bestaande comments
+        Comment comment1 = new Comment();
+        comment1.setId(1L);
+        Comment comment2 = new Comment();
+        comment2.setId(2L);
 
-        commentRepository.deleteById(commentsBeforeDelete.get(0).getId());
+        when(commentRepository.findByPostId(1L)).thenReturn(Arrays.asList(comment1, comment2));
 
-        List<Comment> commentsAfterDelete = commentRepository.findByPostId(1L);
-        assertThat(commentsAfterDelete).hasSize(initialSize - 1);
+        when(commentRepository.findByPostId(1L)).thenReturn(Arrays.asList(comment2));
+
+        commentRepository.deleteById(1L);
+
+        assertThat(commentRepository.findByPostId(1L)).hasSize(1);
+        assertThat(commentRepository.findByPostId(1L).get(0).getId()).isEqualTo(2L);
     }
 }

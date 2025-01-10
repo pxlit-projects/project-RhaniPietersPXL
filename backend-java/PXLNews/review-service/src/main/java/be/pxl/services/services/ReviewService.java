@@ -38,6 +38,9 @@ public class ReviewService implements IReviewService {
         log.info("Fetching posts to review not from author {}", author);
         List<Review> reviews = reviewRepository.findByAuthorNot(author);
         log.info("Found {} posts to review", reviews.size());
+        for (Review review : reviews) {
+            log.info("Post with id {} is pending approval", review.getPostId());
+        }
         return reviews.stream()
                 .map(review -> {
                     PostResponse postResponse = postClient.getPostById(review.getPostId());

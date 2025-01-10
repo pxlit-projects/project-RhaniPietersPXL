@@ -1,6 +1,5 @@
 package be.pxl.services.controller;
 
-
 import be.pxl.services.domain.dto.CommentRequest;
 import be.pxl.services.domain.dto.CommentResponse;
 import be.pxl.services.domain.dto.CommentUpdate;
@@ -22,29 +21,43 @@ public class CommentController {
     private static final Logger log = LoggerFactory.getLogger(CommentController.class);
 
     @GetMapping("{id}")
-    public ResponseEntity<List<CommentResponse>> getAllCommentsForPost(@PathVariable Long id) {
+    public ResponseEntity<List<CommentResponse>> getAllCommentsForPost(@PathVariable Long id, @RequestHeader("user") String user) {
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         log.info("Fetching all comments");
         return new ResponseEntity<>(commentService.getAllComments(id), HttpStatus.OK);
     }
+
     @PutMapping("{id}")
-    public ResponseEntity<CommentResponse> updateComment(@PathVariable Long id, @RequestBody CommentUpdate commentUpdate) {
+    public ResponseEntity<CommentResponse> updateComment(@PathVariable Long id, @RequestBody CommentUpdate commentUpdate, @RequestHeader("user") String user) {
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         log.info("Updating comment with id: {}", id);
         return new ResponseEntity<>(commentService.updateComment(id, commentUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id, @RequestHeader("user") String user) {
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         log.info("Deleting comment with id: {}", id);
         commentService.deleteComment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("{postId}")
-    public ResponseEntity<CommentResponse> createComment(@PathVariable Long postId, @RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<CommentResponse> createComment(@PathVariable Long postId, @RequestBody CommentRequest commentRequest, @RequestHeader("user") String user) {
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         log.info("Creating comment for post with id: {}", postId);
         return new ResponseEntity<>(commentService.createComment(postId, commentRequest), HttpStatus.CREATED);
     }
 
+    //N Request Header, request from post-service
     @GetMapping("count/{postId}")
     public ResponseEntity<Integer> getCommentCount(@PathVariable Long postId) {
         log.info("Fetching comment count for post with id: {}", postId);

@@ -4,6 +4,8 @@ import be.pxl.services.PostServiceApplication;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.dto.PostCreateRequest;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import be.pxl.services.domain.Category;
 import be.pxl.services.domain.State;
 import be.pxl.services.domain.dto.PostUpdateRequest;
@@ -27,7 +29,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,12 +68,13 @@ public class PostControllerTest {
         Post post = new Post(null, "Post Title 1", "Post Content 1", "Author 1", LocalDateTime.now(), Category.FOOD, State.PUBLISHED, null);
         postRepository.save(post);
 
-        mockMvc.perform(get("/post")).andExpect(status().isOk());
+        mockMvc.perform(get("/post")
+                .header("role", "redacteur")
+        ).andExpect(status().isOk());
 
         List<Post> posts = postRepository.findAll();
-        assert (posts.size() > 0);
+        assertFalse(posts.isEmpty(), "Posts list should not be empty");
     }
-
 
     @Test
     public void verifyCreatePostReturnsCreated() throws Exception {
@@ -81,34 +83,13 @@ public class PostControllerTest {
         String json = objectMapper.writeValueAsString(postCreateRequest);
 
         mockMvc.perform(post("/post")
+                        .header("role", "redacteur")
+
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated());
 
-        assertEquals(1, postRepository.findAll().size());
-    }
-
-    @Test
-    public void verifyDeletePostReturnsOk() throws Exception {
-        Post post = new Post(null, "Post Title", "Post Content", "Author 1", LocalDateTime.now(), Category.FOOD, State.PUBLISHED, null);
-        post = postRepository.save(post);
-
-        mockMvc.perform(delete("/post/{id}", post.getId()))
-                .andExpect(status().isOk());
-
-        Optional<Post> deletedPost = postRepository.findById(post.getId());
-        assert (deletedPost.isEmpty());
-    }
-
-    @Test
-    public void verifyGetApprovalReturnsOk() throws Exception {
-        Post post = new Post(null, "Post Title", "Post Content", "Author 1", LocalDateTime.now(), Category.FOOD, State.PUBLISHED, null);
-        post = postRepository.save(post);
-
-        Long postId = post.getId();
-
-        mockMvc.perform(post("/post/{id}/approval", postId))
-                .andExpect(status().isOk());
+        assertEquals(1, postRepository.findAll().size(), "Post should be created successfully");
     }
 
     @Test
@@ -120,14 +101,18 @@ public class PostControllerTest {
 
         String json = objectMapper.writeValueAsString(postUpdateRequest);
         mockMvc.perform(put("/post/{id}", post.getId())
+                        .header("role", "redacteur")
+
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated());
 
         Optional<Post> updatedPost = postRepository.findById(post.getId());
-        assert (updatedPost.isPresent());
-        assert (updatedPost.get().getTitle().equals("Updated Post"));
-        assert (updatedPost.get().getContent().equals("Updated Content"));
+        assertAll("post assertions",
+                () -> assertTrue(updatedPost.isPresent(), "Post should be updated"),
+                () -> assertEquals("Updated Post", updatedPost.get().getTitle(), "Title should be updated"),
+                () -> assertEquals("Updated Content", updatedPost.get().getContent(), "Content should be updated")
+        );
     }
 
     @Test
@@ -135,24 +120,30 @@ public class PostControllerTest {
         Post post = new Post(null, "Post Title", "Post Content", "Author 1", LocalDateTime.now(), Category.FOOD, State.DRAFT, null);
         post = postRepository.save(post);
 
-        mockMvc.perform(post("/post/{id}/publish", post.getId()))
+        mockMvc.perform(post("/post/{id}/publish", post.getId())
+                        .header("role", "redacteur")
+                )
                 .andExpect(status().isOk());
 
         Optional<Post> publishedPost = postRepository.findById(post.getId());
-        assert (publishedPost.isPresent());
-        assert (publishedPost.get().getState().equals(State.PUBLISHED));
+        assertAll("published post assertions",
+                () -> assertTrue(publishedPost.isPresent(), "Post should be published"),
+                () -> assertEquals(State.PUBLISHED, publishedPost.get().getState(), "Post state should be PUBLISHED")
+        );
     }
 
     @Test
     public void verifyGetPostByIdReturnsOk() throws Exception {
         Post post = new Post(null, "Post Title", "Post Content", "Author 1", LocalDateTime.now(), Category.FOOD, State.PUBLISHED, null);
         post = postRepository.save(post);
-        mockMvc.perform(get("/post/{id}", post.getId()))
+        mockMvc.perform(get("/post/{id}", post.getId())
+                        .header("role", "redacteur")
+                )
                 .andExpect(status().isOk());
 
         Optional<Post> fetchedPost = postRepository.findById(post.getId());
-        assert (fetchedPost.isPresent());
-        assert (fetchedPost.get().getTitle().equals("Post Title"));
+        assertTrue(fetchedPost.isPresent(), "Post should be found");
+        assertEquals("Post Title", fetchedPost.get().getTitle(), "Post title should match");
     }
 
     @Test
@@ -165,12 +156,15 @@ public class PostControllerTest {
         postRepository.save(draft1);
         postRepository.save(draft2);
 
-        mockMvc.perform(get("/post/drafts/{author}", author))
+        mockMvc.perform(get("/post/drafts/{author}", author)
+                        .header("user", "Author 1"))
                 .andExpect(status().isOk());
 
         List<Post> drafts = postRepository.findByAuthorAndStateNotIn(author, List.of(State.PUBLISHED));
-        assert (drafts.size() == 2);
-        assert (drafts.get(0).getState().equals(State.DRAFT));
-        assert (drafts.get(1).getState().equals(State.DRAFT));
+        assertEquals(2, drafts.size(), "There should be 2 drafts");
+        assertAll("drafts assertions",
+                () -> assertEquals(State.DRAFT, drafts.get(0).getState(), "Draft 1 should have state DRAFT"),
+                () -> assertEquals(State.DRAFT, drafts.get(1).getState(), "Draft 2 should have state DRAFT")
+        );
     }
 }

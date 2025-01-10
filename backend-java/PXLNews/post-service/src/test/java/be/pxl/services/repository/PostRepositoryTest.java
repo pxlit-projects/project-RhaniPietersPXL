@@ -7,8 +7,13 @@ import be.pxl.services.domain.State;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,15 +21,27 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
+@Testcontainers
 @ContextConfiguration(classes = PostServiceApplication.class)
 public class PostRepositoryTest {
 
     @Autowired
     private PostRepository postRepository;
 
+    @Container
+    private static MySQLContainer mySQLContainer = new MySQLContainer("mysql:5.7");
+
+    @DynamicPropertySource
+    static void registerMySQLProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        registry.add("spring.datasource.password", mySQLContainer::getPassword);
+    }
+
     @BeforeEach
     public void setUp() {
+        postRepository.deleteAll();
         Post post1 = Post.builder().title("Post 1").content("Content of post 1").author("Author 1").creationDate(LocalDateTime.now()).category(Category.FOOD).state(State.DRAFT).build();
         postRepository.save(post1);
 
@@ -72,16 +89,5 @@ public class PostRepositoryTest {
         assertThat(retrievedPost.getContent()).isEqualTo("New Content");
         assertThat(retrievedPost.getAuthor()).isEqualTo("New Author");
         assertThat(retrievedPost.getState()).isEqualTo(State.PENDING_APPROVAL);
-    }
-
-    @Test
-    public void testDeletePost() {
-        List<Post> postsBeforeDelete = postRepository.findByState(State.DRAFT);
-        int initialSize = postsBeforeDelete.size();
-
-        postRepository.deleteById(postsBeforeDelete.get(0).getId());
-
-        List<Post> postsAfterDelete = postRepository.findByState(State.DRAFT);
-        assertThat(postsAfterDelete).hasSize(initialSize - 1);
     }
 }

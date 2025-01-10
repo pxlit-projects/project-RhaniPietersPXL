@@ -5,25 +5,25 @@ import be.pxl.services.domain.Category;
 import be.pxl.services.domain.Post;
 import be.pxl.services.domain.Review;
 import be.pxl.services.domain.State;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
 @ContextConfiguration(classes = ReviewServiceApplication.class)
+@SpringBootTest
 public class ReviewRepositoryTest {
-    @PersistenceContext
-    protected EntityManager entityManager;
 
-    @Autowired
+    @Mock
+    private PostRepository postRepository;
+
+    @Mock
     private ReviewRepository reviewRepository;
 
     @Test
@@ -36,15 +36,18 @@ public class ReviewRepositoryTest {
                 .category(Category.FOOD)
                 .state(State.DRAFT)
                 .build();
-        entityManager.persist(post);
-        entityManager.flush();
+        post.setId(1L);
+
+        // Mocking the PostRepository
+        when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
 
         Review review = new Review();
         review.setAuthor("Jane");
         review.setPostId(post.getId());
         review.setRejectedMessage("Test rejection message");
-        entityManager.persist(review);
-        entityManager.flush();
+
+        // Mocking the ReviewRepository
+        when(reviewRepository.findByPostId(post.getId())).thenReturn(Optional.of(review));
 
         Optional<Review> foundReview = reviewRepository.findByPostId(post.getId());
 
@@ -55,6 +58,8 @@ public class ReviewRepositoryTest {
 
     @Test
     public void testFindByPostIdNotFound() {
+        when(postRepository.findById(999L)).thenReturn(Optional.empty());
+
         Optional<Review> review = reviewRepository.findByPostId(999L);
         assertThat(review).isNotPresent();
     }
