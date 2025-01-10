@@ -598,3 +598,7 @@
 2025-01-10T23:59:42.265+0100 INFO               [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] be.pxl.services.services.ReviewService - Adding post with id 7 for approval
 2025-01-11T00:00:13.514+0100 INFO               [http-nio-8083-exec-1]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 5
 2025-01-11T00:00:13.652+0100 INFO               [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] be.pxl.services.services.ReviewService - Adding post with id 7 for approval
+2025-01-11T00:04:57.677+0100 INFO               [http-nio-8083-exec-4]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 5
+2025-01-11T00:04:57.808+0100 INFO               [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] be.pxl.services.services.ReviewService - Adding post with id 7 for approval
+2025-01-11T00:11:45.517+0100 INFO               [http-nio-8083-exec-6]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 5
+2025-01-11T00:12:28.996+0100 INFO               [http-nio-8083-exec-8]         be.pxl.services.controller.CommentController - Fetching comment count for post with id: 5
