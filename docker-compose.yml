@@ -10,7 +10,7 @@ services:
       context: ./frontend-web/PXLNews
       dockerfile: Dockerfile
     ports:
-      - "9000:80"
+      - "4200:80"
 
   config-service:
     container_name: config-service
