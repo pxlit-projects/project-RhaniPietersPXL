@@ -17,7 +17,7 @@ import {DetailComponent} from "../detail/detail.component";
 export class DraftDetailComponent implements OnInit, OnDestroy {
     postService: PostService = inject(PostService);
     router: Router = inject(Router);
-    authServ: AuthService = inject(AuthService);
+    authService: AuthService = inject(AuthService);
     post!: Post;
     sub!: Subscription;
 
@@ -31,7 +31,7 @@ export class DraftDetailComponent implements OnInit, OnDestroy {
         }
     }
 
-    publishPost(number: number) {
+    publishPost(number: number): void {
         this.sub = this.postService.publishPost(number).subscribe({
             next: () => {
                 this.router.navigate(['/published']);
@@ -39,7 +39,7 @@ export class DraftDetailComponent implements OnInit, OnDestroy {
         });
     }
 
-    editPost(number: number) {
+    editPost(number: number): void {
         this.router.navigate(['/edit', number], {state: {post: this.post}});
 
     }

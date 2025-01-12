@@ -14,8 +14,8 @@ import {Observable} from "rxjs";
 })
 export class CommentFormComponent implements OnInit, CanComponentDeactivate {
     @Input() comment!: Comment | null;
-    @Output() submitComment = new EventEmitter<Comment>();
-    @Output() cancelEdit = new EventEmitter<void>();
+    @Output() submitComment: EventEmitter<Comment> = new EventEmitter<Comment>();
+    @Output() cancelEdit: EventEmitter<void> = new EventEmitter<void>();
 
     fb: FormBuilder = inject(FormBuilder);
     commentForm: FormGroup = this.fb.group({
@@ -32,7 +32,7 @@ export class CommentFormComponent implements OnInit, CanComponentDeactivate {
         }
     }
 
-    onSubmit() {
+    onSubmit(): void {
         if (this.commentForm.valid) {
             let newComment: Comment;
             if (this.comment === null) {
@@ -50,7 +50,7 @@ export class CommentFormComponent implements OnInit, CanComponentDeactivate {
         }
     }
 
-    cancel() {
+    cancel(): void {
         this.cancelEdit.emit();
         this.commentForm.reset();
     }

@@ -9,7 +9,6 @@ import {DraftDetailComponent} from "./core/posts/draft-detail/draft-detail.compo
 import {CommentDetailComponent} from "./core/comments/comment-detail/comment-detail.component";
 import {ApproveDetailComponent} from "./core/reviews/approve-detail/approve-detail.component";
 import {confirmLeaveGuard} from "./confirm-leave.guard";
-import {CommentComponent} from "./core/comments/comment/comment.component";
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent,},
@@ -25,6 +24,9 @@ export const routes: Routes = [
     {path: 'approve/:id', component: ApproveDetailComponent},
 
     {path: 'add', component: AddPostComponent, canDeactivate: [confirmLeaveGuard]},
+
     {path: '', redirectTo: 'login', pathMatch: 'full'},
+    {path: '**', redirectTo: 'login'}
+
 ];
 

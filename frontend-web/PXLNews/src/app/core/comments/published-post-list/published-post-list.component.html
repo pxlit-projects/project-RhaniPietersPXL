@@ -3,7 +3,7 @@
 	<app-filter (filterChanged)="handleFilter($event)"></app-filter>
 	<div class="grid grid-cols-1 gap-6">
 		@for (item of filteredData; track item.id) {
-			<app-post-item [post]="item" (detailsClicked)="onPostDetails(item)"></app-post-item>
+			<app-post-item [post]="item" (detailsClicked)="onPostDetails($event)"></app-post-item>
 		}
 	</div>
 </div>

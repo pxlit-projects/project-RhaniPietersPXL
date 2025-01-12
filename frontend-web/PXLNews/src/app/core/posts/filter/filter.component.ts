@@ -12,9 +12,9 @@ import {FormsModule} from "@angular/forms";
 export class FilterComponent {
     filter: Filter = {content: '', category: '', author: ''};
 
-    @Output() filterChanged = new EventEmitter<Filter>();
+    @Output() filterChanged: EventEmitter<Filter> = new EventEmitter<Filter>();
 
-    onSubmit(form: any) {
+    onSubmit(form: any): void {
         if (form.valid) {
             this.filter.content = this.filter.content.toLowerCase();
             this.filter.category = this.filter.category.toLowerCase();

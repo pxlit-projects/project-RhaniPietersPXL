@@ -15,7 +15,7 @@ import {Review} from "../../../shared/models/review.model";
 })
 export class ApprovalPostListComponent implements OnInit {
     reviewService: ReviewService = inject(ReviewService);
-    authservice: AuthService = inject(AuthService);
+    authService: AuthService = inject(AuthService);
     router: Router = inject(Router);
     reviews!: Review[];
 
@@ -23,8 +23,8 @@ export class ApprovalPostListComponent implements OnInit {
         this.fetchData();
     }
 
-    private fetchData() {
-        const author = this.authservice.getUsername();
+    private fetchData(): void {
+        const author: string | null = this.authService.getUsername();
         this.reviewService.getPostsToApprove(author!).subscribe({
             next: reviews => {
                 this.reviews = reviews;
@@ -32,7 +32,7 @@ export class ApprovalPostListComponent implements OnInit {
         });
     }
 
-    onPostDetails(item: Post) {
-        this.router.navigate(['/approve', item.id], {state: {post: item}});
+    onPostDetails(post: Post): void {
+        this.router.navigate(['/approve', post.id], {state: {post: post}});
     }
 }

@@ -6,7 +6,6 @@ import {Post} from "../../../shared/models/post.model";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {CanComponentDeactivate} from "../../../confirm-leave.guard";
-import {data} from "autoprefixer";
 
 @Component({
     selector: 'app-edit-post',
@@ -63,9 +62,9 @@ export class EditPostComponent implements OnInit, OnDestroy, CanComponentDeactiv
         }
     }
 
-    editPost(post: Post) {
+    editPost(post: Post): void {
         this.sub = this.postService.updatePost(post).subscribe({
-            next: (data) => {
+            next: (data: Post): void => {
                 this.postForm.reset();
                 this.post = data;
                 if (this.action === 'approval') {
@@ -79,7 +78,7 @@ export class EditPostComponent implements OnInit, OnDestroy, CanComponentDeactiv
 
     askApproval(id: number): void {
         this.sub = this.postService.askApproval(id).subscribe({
-            next: (data) => {
+            next: (data: Post): void => {
                 this.postForm.reset();
                 this.post = data;
                 this.router.navigate(['/draft', this.id], {state: {post: this.post}});

@@ -1,16 +1,6 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnDestroy,
-    Output,
-    QueryList,
-    ViewChildren
-} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnDestroy, Output, QueryList, ViewChildren} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {CommentService} from "../../../shared/services/comment.service";
-import {Router} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth.service";
 import {Comment} from "../../../shared/models/comment.model";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -29,10 +19,9 @@ export class CommentComponent implements OnDestroy, CanComponentDeactivate {
     @ViewChildren(CommentFormComponent) formComponents!: QueryList<CommentFormComponent>;
 
     commentService: CommentService = inject(CommentService);
-    authservice: AuthService = inject(AuthService);
-    router: Router = inject(Router);
-    @Output() onCommentDeleted = new EventEmitter<Comment>();
-    @Output() onCommentEdit = new EventEmitter<Comment>();
+    authService: AuthService = inject(AuthService);
+    @Output() onCommentDeleted : EventEmitter<Comment> = new EventEmitter<Comment>();
+    @Output() onCommentEdit : EventEmitter<Comment> = new EventEmitter<Comment>();
 
     sub!: Subscription;
     @Input() comment!: Comment;
@@ -45,26 +34,25 @@ export class CommentComponent implements OnDestroy, CanComponentDeactivate {
         }
     }
 
-    onEdit() {
+    onEdit() : void {
         this.isEditing = true;
     }
 
-
-    onDelete() {
+    onDelete() : void {
         this.sub = this.commentService.deleteComment(this.comment.id!).subscribe({
-            next: () => {
+            next: () : void => {
                 this.onCommentDeleted.emit(this.comment);
             }
         });
     }
 
-    onCancelEdit() {
+    onCancelEdit() : void {
         this.isEditing = false;
     }
 
-    onSubmitEdit(comment: Comment) {
+    onSubmitEdit(comment: Comment) : void {
         this.sub = this.commentService.updateComment(comment).subscribe({
-            next: (newComment) => {
+            next: (newComment : Comment) => {
                 this.comment = newComment;
                 this.onCommentEdit.emit(newComment);
                 this.isEditing = false;

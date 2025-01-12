@@ -11,7 +11,7 @@ import {AuthService} from "./auth.service";
 export class CommentService {
     api: string = environment.apiUrlComment;
     http: HttpClient = inject(HttpClient);
-    authService = inject(AuthService);
+    authService : AuthService = inject(AuthService);
 
     private getHeaders(): HttpHeaders {
         return new HttpHeaders()

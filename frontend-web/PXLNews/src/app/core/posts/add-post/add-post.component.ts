@@ -25,7 +25,7 @@ export class AddPostComponent implements CanComponentDeactivate {
         this.action = action;
     }
 
-    postForm: Post = {
+    newPost: Post = {
         creationDate: "",
         state: "",
         title: '',
@@ -34,30 +34,29 @@ export class AddPostComponent implements CanComponentDeactivate {
         author: this.authService.getUsername()!
     };
 
-    onSubmit(data: Object): void {
-        if (this.postForm.title && this.postForm.content && this.postForm.category) {
-            const newPost: Post = {
-                ...this.postForm,
-                creationDate: new Date().toISOString(),
-                state: this.action === 'approval' ? 'PENDING_APPROVAL' : 'DRAFT',
-            };
+    onSubmit(): void {
+        const post: Post = {
+            ...this.newPost,
+            creationDate: new Date().toISOString(),
+            state: this.action === 'approval' ? 'PENDING_APPROVAL' : 'DRAFT',
+        };
 
-            if (this.action === 'approval') {
-                this.postService.addPost(newPost).subscribe(() => {
-                    this.resetForm();
-                    this.router.navigate(['/drafts']);
-                });
-            } else if (this.action === 'draft') {
-                this.postService.savePostAsDraft(newPost).subscribe(() => {
-                    this.resetForm();
-                    this.router.navigate(['/drafts']);
-                });
-            }
+        if (this.action === 'approval') {
+            this.postService.addPost(post).subscribe((): void => {
+                this.resetForm();
+                this.router.navigate(['/drafts']);
+            });
+        } else if (this.action === 'draft') {
+            this.postService.savePostAsDraft(post).subscribe((): void => {
+                this.resetForm();
+                this.router.navigate(['/drafts']);
+            });
         }
+
     }
 
     resetForm(): void {
-        this.postForm = {
+        this.newPost = {
             creationDate: "",
             state: "",
             title: '',
@@ -68,7 +67,7 @@ export class AddPostComponent implements CanComponentDeactivate {
     }
 
     canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-        if (this.postForm.title || this.postForm.content || this.postForm.category) {
+        if (this.newPost.title || this.newPost.content || this.newPost.category) {
             return window.confirm('Are you sure you want to leave this page?');
         }
         return true;

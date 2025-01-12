@@ -11,9 +11,9 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 })
 export class PostItemComponent {
     @Input() post!: Post;
-    @Output() detailsClicked = new EventEmitter<Post>();
+    @Output() detailsClicked: EventEmitter<Post> = new EventEmitter<Post>();
 
-    onDetailsClick() {
+    onDetailsClick(): void {
         this.detailsClicked.emit(this.post);
     }
 }

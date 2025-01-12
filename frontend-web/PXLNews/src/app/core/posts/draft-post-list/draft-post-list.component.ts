@@ -15,22 +15,22 @@ import {Router} from "@angular/router";
 export class DraftPostListComponent implements OnInit {
     postService: PostService = inject(PostService);
     router: Router = inject(Router);
-    Authservice: AuthService = inject(AuthService);
+    authService: AuthService = inject(AuthService);
     posts!: Post[];
 
     ngOnInit(): void {
         this.fetchData();
     }
 
-    private fetchData() {
-        this.postService.getDrafts(this.Authservice.getUsername()!).subscribe({
+    private fetchData(): void {
+        this.postService.getDrafts(this.authService.getUsername()!).subscribe({
             next: posts => {
                 this.posts = posts;
             }
         });
     }
 
-    onPostDetails(item: Post) {
+    onPostDetails(item: Post): void {
         this.router.navigate(['/draft', item.id], {state: {post: item}});
     }
 }

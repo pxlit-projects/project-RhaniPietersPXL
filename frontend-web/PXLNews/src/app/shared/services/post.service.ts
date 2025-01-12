@@ -13,7 +13,7 @@ import {AuthService} from "./auth.service";
 export class PostService {
     api: string = environment.apiUrlPost;
     http: HttpClient = inject(HttpClient);
-    authService = inject(AuthService);
+    authService : AuthService = inject(AuthService);
 
     private getHeaders(): HttpHeaders {
         return new HttpHeaders()
@@ -36,7 +36,7 @@ export class PostService {
         );
     }
 
-    private isPostMatchingFilter(post: Post, filter: Filter) {
+    private isPostMatchingFilter(post: Post, filter: Filter) : boolean {
         const matchesContent = post.content.toLowerCase().includes(filter.content.toLowerCase());
         const matchesAuthor = post.author.toLowerCase().includes(filter.author.toLowerCase());
         const matchesCategory = post.category.toLowerCase().includes(filter.category.toLowerCase());

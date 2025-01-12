@@ -62,7 +62,7 @@ describe('AddPostComponent', () => {
         spyOn(mockRouter, 'navigate');
 
         component.setAction('approval');
-        component.postForm = {
+        component.newPost = {
             creationDate: '',
             state: '',
             title: 'Test Post',
@@ -71,7 +71,7 @@ describe('AddPostComponent', () => {
             author: 'testUser'
         };
 
-        component.onSubmit({});
+        component.onSubmit();
 
         expect(mockPostService.addPost).toHaveBeenCalledWith({
             creationDate: jasmine.any(String),
@@ -88,7 +88,7 @@ describe('AddPostComponent', () => {
 
 
     it('should reset the form', () => {
-        component.postForm = {
+        component.newPost = {
             creationDate: '2024-11-28',
             state: 'DRAFT',
             title: 'Test Title',
@@ -99,15 +99,15 @@ describe('AddPostComponent', () => {
 
         component.resetForm();
 
-        expect(component.postForm.title).toBe('');
-        expect(component.postForm.content).toBe('');
-        expect(component.postForm.category).toBe('');
-        expect(component.postForm.state).toBe('');
+        expect(component.newPost.title).toBe('');
+        expect(component.newPost.content).toBe('');
+        expect(component.newPost.category).toBe('');
+        expect(component.newPost.state).toBe('');
     });
     it('should prompt for confirmation if form is not empty', () => {
         spyOn(window, 'confirm').and.returnValue(true);
 
-        component.postForm.title = 'Test Title';
+        component.newPost.title = 'Test Title';
         const result = component.canDeactivate();
 
         expect(window.confirm).toHaveBeenCalledWith('Are you sure you want to leave this page?');
@@ -117,7 +117,7 @@ describe('AddPostComponent', () => {
     it('should allow navigation if form is empty', () => {
         spyOn(window, 'confirm');
 
-        component.postForm.title = '';
+        component.newPost.title = '';
         const result = component.canDeactivate();
 
         expect(window.confirm).not.toHaveBeenCalled();
