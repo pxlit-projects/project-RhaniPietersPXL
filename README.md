@@ -32,16 +32,9 @@ Each folder contains its own specific `.gitignore` file.
 ### Frontend Setup
 
 #### 1. Using Docker:
-To run the frontend using Docker, follow these steps:
-1. Build the Docker image for the frontend:
-   ```bash
-   docker build -t pxlnews .
-   ```
-2. Run the Docker container:
-   ```bash
-   docker run -p 4200:80 pxlnews
-   ```
-   Note: You may encounter 'service not available' issues when running both frontend and backend in Docker because of RabbitMQ.
+To run the frontend using Docker run docker compose up in the front-end folder.
+
+Note: You may encounter 'service not available' issues when running both frontend and backend in Docker because of RabbitMQ.
 
 ### Notes on CORS Issues
 
