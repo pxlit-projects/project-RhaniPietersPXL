@@ -19,7 +19,7 @@ Each folder contains its own specific `.gitignore` file.
 ### Backend Setup
 
 1. **Using Docker**:  
-   You can run the backend using the `docker-compose.yml` file on the main branch. This will start the application, but there may be a CORS issue.
+   You can run the backend using the `docker-compose.yml` file on the main branch. This will start the application, but there is an issue with RabbitMQ.
 
 2. **Without Docker (Local Setup)**:  
    To run the backend locally, first start the databases by running the `docker-compose.yml` from the `no-container` branch.  
@@ -39,26 +39,13 @@ To run the frontend using Docker, follow these steps:
    ```
 2. Run the Docker container:
    ```bash
-   docker run -p 80:80 pxlnews
+   docker run -p 4200:80 pxlnews
    ```
-   Note: You may encounter CORS issues when running both frontend and backend in Docker.
-
-#### 2. Without Docker (Local Setup):
-To avoid CORS issues, you can run the frontend locally by following these steps:
-1. Navigate to the `frontend-web` directory.
-2. Install the necessary dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the Angular development server:
-   ```bash
-   ng serve
-   ```
-   The frontend will be available at `http://localhost:4200`
+   Note: You may encounter 'service not available' issues when running both frontend and backend in Docker because of RabbitMQ.
 
 ### Notes on CORS Issues
 
-Running the application locally should generally not trigger CORS issues. However, if you encounter CORS problems when using Docker for both the frontend and backend, it's recommended to run them separately, locally (i.e., run the frontend using `ng serve` and the backend using Docker or directly via Java). This approach should avoid any CORS-related problems.
+Running the application locally should generally not trigger issues. However, if you encounter problems when using Docker for both the frontend and backend, it's recommended to run them separately, locally (i.e., run the backend using Docker and directly via Java). This approach should avoid any service-related problems.
 
 
 
