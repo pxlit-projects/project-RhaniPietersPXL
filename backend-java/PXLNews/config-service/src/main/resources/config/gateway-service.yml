@@ -4,7 +4,26 @@ server:
 spring:
   cloud:
     gateway:
-      globalcors: {}
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+              - "http://127.0.0.1:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            exposedHeaders:
+              - "Access-Control-Allow-Origin"
+              - "Access-Control-Allow-Credentials"
+              - "Access-Control-Allow-Headers"
+              - "Access-Control-Allow-Methods"
+            allowCredentials: true
       discovery:
         locator:
           enabled: true
@@ -37,4 +56,4 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://discovery-service:8061/eureka/
+      defaultZone: http://localhost:8061/eureka/
