@@ -32,10 +32,17 @@ Each folder contains its own specific `.gitignore` file.
 ### Frontend Setup
 
 #### 1. Using Docker:
-To run the frontend using Docker run docker compose up in the front-end folder.
-
+To run the frontend using Docker run:
+   ```bash
+   docker compose up
+   ```
 Note: You may encounter 'service not available' issues when running both frontend and backend in Docker because of RabbitMQ.
 
 ### Notes on CORS Issues
 
 Running the application locally should generally not trigger issues. However, if you encounter problems when using Docker for both the frontend and backend, it's recommended to run the backend locally (i.e., run the backend using Docker and directly via Java). This approach should avoid any service-related problems.
+
+
+
+
+
