@@ -2,7 +2,7 @@
 	<h1 class="text-4xl font-bold text-text-primary mb-6">Drafts</h1>
 	<div class="grid grid-cols-1 gap-6">
 		@for (item of posts; track item.id) {
-			<app-post-item [post]="item" (detailsClicked)="onPostDetails(item)"></app-post-item>
+			<app-post-item [post]="item" (detailsClicked)="onPostDetails($event)"></app-post-item>
 		}
 	</div>
 </div>

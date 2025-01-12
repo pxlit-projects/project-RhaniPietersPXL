@@ -11,19 +11,19 @@ import {AuthService} from "../../shared/services/auth.service";
     styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-    isMenuOpen = false;
-    authService = inject(AuthService);
-    router = inject(Router);
+    isMenuOpen: boolean = false;
+    authService: AuthService = inject(AuthService);
+    router: Router = inject(Router);
 
-    toggleMenu() {
+    toggleMenu(): void {
         this.isMenuOpen = !this.isMenuOpen;
     }
 
-    closeMenu() {
+    closeMenu(): void {
         this.isMenuOpen = false;
     }
 
-    logout() {
+    logout(): void {
         this.authService.logout();
         this.router.navigate(['/login']);
     }

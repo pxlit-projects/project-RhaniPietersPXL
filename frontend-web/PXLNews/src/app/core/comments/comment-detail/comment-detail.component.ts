@@ -1,7 +1,6 @@
 import {Component, inject, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {DetailComponent} from "../../posts/detail/detail.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {Post} from "../../../shared/models/post.model";
 import {CommentService} from "../../../shared/services/comment.service";
@@ -25,7 +24,6 @@ export class CommentDetailComponent implements OnInit, OnDestroy, CanComponentDe
 
     commentService: CommentService = inject(CommentService);
     authService: AuthService = inject(AuthService);
-    router: Router = inject(Router);
     sub!: Subscription;
     isUserLoggedIn: boolean = this.authService.getUsername() != null;
 
@@ -37,7 +35,7 @@ export class CommentDetailComponent implements OnInit, OnDestroy, CanComponentDe
     ngOnInit(): void {
         this.post = history.state['post'];
         this.sub = this.commentService.getComments(this.post.id!).subscribe({
-            next: (comments) => {
+            next: (comments : Comment[]) => {
                 this.comments = comments;
             }
         });
@@ -49,7 +47,7 @@ export class CommentDetailComponent implements OnInit, OnDestroy, CanComponentDe
         }
     }
 
-    toggleAddComment() {
+    toggleAddComment(): void {
         this.showCommentInput = !this.showCommentInput;
     }
 
@@ -58,23 +56,23 @@ export class CommentDetailComponent implements OnInit, OnDestroy, CanComponentDe
         newComment.author = this.authService.getUsername()!;
         newComment.postId = this.post.id!;
         this.sub = this.commentService.commentOnPost(newComment).subscribe({
-            next: (comment) => {
+            next: (comment : Comment): void => {
                 this.comments.push(comment);
             }
         });
     }
 
-    onDelete(item: Comment) {
+    onDelete(item: Comment): void {
         this.comments = this.comments.filter(comment => comment.id !== item.id);
     }
 
-    onCancelAdd() {
+    onCancelAdd(): void {
         this.showCommentInput = false;
 
     }
 
-    onEdit(updatedComment: Comment) {
-        const commentIndex = this.comments.findIndex(comment => comment.id === updatedComment.id);
+    onEdit(updatedComment: Comment) : void {
+        const commentIndex : number = this.comments.findIndex(comment => comment.id === updatedComment.id);
         this.comments[commentIndex] = updatedComment;
     }
 

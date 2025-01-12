@@ -18,7 +18,7 @@ import {ReviewService} from "../../../shared/services/review.service";
 export class ApproveDetailComponent implements OnInit, OnDestroy {
     reviewService: ReviewService = inject(ReviewService);
     router: Router = inject(Router);
-    authServ: AuthService = inject(AuthService);
+    authService: AuthService = inject(AuthService);
     sub!: Subscription;
 
     post!: Post;
@@ -29,28 +29,27 @@ export class ApproveDetailComponent implements OnInit, OnDestroy {
         this.post = history.state['post'];
     }
 
-    approvePost(id: number) {
+    approvePost(id: number): void {
         this.sub = this.reviewService.approvePost(id).subscribe({
-            next: () => {
+            next: (): void => {
                 this.router.navigate(['/approve']);
             }
         });
     }
 
-    rejectPost(id: number) {
-        //TODO: Add validation
+    rejectPost(id: number): void {
         if (!this.rejectMessage.trim()) {
             alert('Please provide a rejection message.');
             return;
         }
         this.sub = this.reviewService.rejectPost(id, this.rejectMessage).subscribe({
-            next: () => {
+            next: (): void => {
                 this.router.navigate(['/approve']);
             }
         });
     }
 
-    toggleRejectInput() {
+    toggleRejectInput(): void {
         this.showRejectInput = !this.showRejectInput;
     }
 

@@ -4,7 +4,7 @@
 		<div class="mt-4">
 			<h2 class="text-xl font-bold">Comments</h2>
 			@for (item of comments; track item.id) {
-				<app-comment [comment]="item" [postId]="post.id!" (onCommentDeleted)="onDelete(item)" (onCommentEdit)="onEdit(item)"></app-comment>
+				<app-comment [comment]="item" [postId]="post.id!" (onCommentDeleted)="onDelete($event)" (onCommentEdit)="onEdit($event)"></app-comment>
 			}
 		</div>
 	}
