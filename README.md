@@ -45,7 +45,7 @@ To run the frontend using Docker, follow these steps:
 
 ### Notes on CORS Issues
 
-Running the application locally should generally not trigger issues. However, if you encounter problems when using Docker for both the frontend and backend, it's recommended to run them separately, locally (i.e., run the backend using Docker and directly via Java). This approach should avoid any service-related problems.
+Running the application locally should generally not trigger issues. However, if you encounter problems when using Docker for both the frontend and backend, it's recommended to run the backend locally (i.e., run the backend using Docker and directly via Java). This approach should avoid any service-related problems.
 
 
 
