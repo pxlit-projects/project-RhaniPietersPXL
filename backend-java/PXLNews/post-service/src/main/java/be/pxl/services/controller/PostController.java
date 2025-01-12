@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class PostController {
     private final IPostService postService;
     private static final Logger log = LoggerFactory.getLogger(PostController.class);
